@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotex Chatbot 测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .chat-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .chat-history {
+            height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: white;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #f1f1f1;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+            font-size: 16px;
+        }
+        #send-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #send-button:hover {
+            background-color: #0b7dda;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: #2196F3;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .json-data {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #2196F3;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        .controls {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toggle-raw {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+        #debug-area {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        .server-options {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        #server-url {
+            width: 250px;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        .history-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            display: none;
+        }
+        #clear-chat {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #clear-chat:hover {
+            background-color: #d32f2f;
+        }
+        .tool-message {
+            background-color: #fff3e0;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        .error-message {
+            background-color: #ffebee;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        .message-content {
+            display: block;
+            word-break: break-word;
+        }
+        
+        /* 添加调试边框，方便查看DOM结构 */
+        .debug-mode .message {
+            border: 1px dashed #aaa;
+        }
+        .debug-mode .message-content {
+            border: 1px dotted blue;
+        }
+        .debug-mode .json-data {
+            border: 1px solid red;
+        }
+        
+        /* 消息状态指示 */
+        .message-status {
+            font-size: 10px;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        /* 添加中断按钮样式 */
+        #interrupt-button {
+            display: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #interrupt-button:hover {
+            background-color: #e68a00;
+        }
+        
+        /* 添加查询类型和数据源设置相关样式 */
+        .query-type-controls {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .query-type-controls label {
+            margin-right: 10px;
+        }
+        #data-source-container {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cotex Chatbot 测试页面</h1>
+    
+    <div class="controls">
+        <div class="server-options">
+            <label for="server-url">服务器地址：</label>
+            <input type="text" id="server-url" value="http://localhost:8001">
+            <button id="clear-chat">清空聊天</button>
+        </div>
+        <div class="toggle-raw">
+            <input type="checkbox" id="show-raw" name="show-raw">
+            <label for="show-raw">显示原始JSON</label>
+            <input type="checkbox" id="show-debug" name="show-debug" style="margin-left: 10px;">
+            <label for="show-debug">显示调试信息</label>
+            <input type="checkbox" id="show-history" name="show-history" style="margin-left: 10px;">
+            <label for="show-history">显示历史对象</label>
+            <input type="checkbox" id="debug-mode" name="debug-mode" style="margin-left: 10px;">
+            <label for="debug-mode">调试模式</label>
+        </div>
+    </div>
+    
+    <!-- 添加查询类型选择 -->
+    <div class="query-type-controls">
+        <label>查询类型：</label>
+        <input type="radio" id="query-type-user" name="query-type" value="user" checked>
+        <label for="query-type-user">用户查询(User)</label>
+        <input type="radio" id="query-type-server" name="query-type" value="server" style="margin-left: 10px;">
+        <label for="query-type-server">服务器查询(Server)</label>
+    </div>
+    
+    <!-- 添加数据源配置 -->
+    <div id="data-source-container">
+        <!-- 添加规划参数输入 -->
+        <div style="margin-top: 10px;">
+            <label for="query-background">分析背景：</label>
+            <input type="text" id="query-background" style="width: 300px;" placeholder="例如：用户想了解小米手机的市场表现">
+        </div>
+        <div style="margin-top: 5px;">
+            <label for="query-task">分析任务：</label>
+            <input type="text" id="query-task" style="width: 300px;" placeholder="例如：分析品牌声量和用户评价">
+        </div>
+        
+        <div id="data-source-status" style="margin-top: 5px;"></div>
+    </div>
+    
+    <div class="chat-container">
+        <div class="chat-history" id="chat-history"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="输入消息..." autocomplete="off">
+            <button id="send-button" type="button">发送</button>
+            <button id="interrupt-button" type="button">中断处理</button>
+        </div>
+    </div>
+    
+    <div id="debug-area"></div>
+    <div id="history-container" class="history-container">
+        <h3>对话历史对象</h3>
+        <pre id="history-json"></pre>
+    </div>
+
+    <script>
+        // --- DOM Elements ---
+        const serverUrlInput = document.getElementById('server-url');
+        const showRawCheckbox = document.getElementById('show-raw');
+        const showDebugCheckbox = document.getElementById('show-debug');
+        const showHistoryCheckbox = document.getElementById('show-history');
+        const debugModeCheckbox = document.getElementById('debug-mode');
+        const debugArea = document.getElementById('debug-area');
+        const historyContainer = document.getElementById('history-container');
+        const historyJson = document.getElementById('history-json');
+        const chatHistory = document.getElementById('chat-history');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const clearChatButton = document.getElementById('clear-chat');
+        const interruptButton = document.getElementById('interrupt-button');
+        
+        // 新增DOM元素
+        const queryTypeUser = document.getElementById('query-type-user');
+        const queryTypeServer = document.getElementById('query-type-server');
+        const dataSourceContainer = document.getElementById('data-source-container');
+        const dataSourceStatus = document.getElementById('data-source-status');
+        const queryBackground = document.getElementById('query-background');
+        const queryTask = document.getElementById('query-task');
+
+        // --- State ---
+        let messages = [];
+        let isWaitingForResponse = false;
+        let currentConversationId = `web-test-conv-${Date.now()}`;
+        let collectedData = null; // 存储server模式的数据
+
+        // --- Logging Utility ---
+        function logDebug(message, data = null) {
+            if (!showDebugCheckbox.checked) return;
+            const timestamp = new Date().toISOString().substring(11, 23);
+            let logMessage = `[${timestamp}] ${message}`;
+            if (data) {
+                try {
+                    logMessage += '\n' + JSON.stringify(data, null, 2);
+                } catch (e) {
+                    logMessage += '\n' + String(data);
+                }
+            }
+            debugArea.textContent += logMessage + '\n\n';
+            debugArea.scrollTop = debugArea.scrollHeight;
+        }
+
+        // --- UI Update Functions ---
+        function createMessageElement(content, role, rawJson = null, messageType = 'normal') {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            const isUser = role === 'user';
+
+            if (isUser) {
+                messageDiv.classList.add('user-message');
+            } else if (messageType === 'tool') {
+                messageDiv.classList.add('tool-message');
+            } else if (messageType === 'error') {
+                messageDiv.classList.add('error-message');
+            } else {
+                messageDiv.classList.add('bot-message');
+            }
+
+            const contentSpan = document.createElement('span');
+            contentSpan.className = 'message-content';
+            contentSpan.textContent = content;
+            messageDiv.appendChild(contentSpan);
+
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'message-status';
+            statusDiv.textContent = isUser ? '已发送' : (content ? '已完成' : '接收中...'); // Initial state for bot
+            messageDiv.appendChild(statusDiv);
+
+            if (rawJson) {
+                try {
+                    messageDiv.dataset.rawJson = JSON.stringify(rawJson);
+                } catch (e) {
+                    logDebug("Error stringifying rawJson for dataset", e);
+                }
+            }
+
+            return messageDiv;
+        }
+        
+        function appendMessageToHistory(messageElement) {
+             chatHistory.appendChild(messageElement);
+             chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // Simplified update function: only appends chunks, marks complete at the end.
+        function updateBotMessageContent(messageElement, contentChunk) {
+            const contentSpan = messageElement.querySelector('.message-content');
+            if (contentSpan) {
+                contentSpan.textContent += contentChunk; // Append chunk
+                // logDebug('Appended chunk', { currentLength: contentSpan.textContent.length });
+            }
+             chatHistory.scrollTop = chatHistory.scrollHeight; // Ensure scroll with new content
+        }
+        
+        function finalizeBotMessage(messageElement, finalContent, rawJson = null) {
+             const contentSpan = messageElement.querySelector('.message-content');
+             const statusDiv = messageElement.querySelector('.message-status');
+             
+             if(contentSpan) {
+                 contentSpan.textContent = finalContent; // Ensure final content is exactly correct
+             }
+             if(statusDiv) {
+                 statusDiv.textContent = '已完成';
+             }
+             if (rawJson) {
+                try {
+                     messageElement.dataset.rawJson = JSON.stringify(rawJson);
+                     if (showRawCheckbox.checked) {
+                         updateJsonView(messageElement, rawJson);
+                     }
+                } catch (e) {
+                    logDebug("Error stringifying final rawJson for dataset", e);
+                }
+            }
+             logDebug('Finalized bot message', { finalLength: finalContent.length });
+        }
+
+        function updateJsonView(messageElement, rawJson) {
+            let jsonDiv = messageElement.querySelector('.json-data');
+            if (jsonDiv) {
+                jsonDiv.remove(); // Remove existing if any
+            }
+            if (showRawCheckbox.checked && rawJson) {
+                jsonDiv = document.createElement('div');
+                jsonDiv.className = 'json-data';
+                jsonDiv.textContent = JSON.stringify(rawJson, null, 2);
+                messageElement.appendChild(jsonDiv);
+            }
+        }
+
+        function addLoadingIndicator() {
+            const existingIndicator = document.getElementById('loading-indicator');
+            if (existingIndicator) return; // Don't add multiple
+            
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message bot-message'; // Style like a bot message
+            loadingDiv.id = 'loading-indicator';
+            
+            const loadingSpinner = document.createElement('span');
+            loadingSpinner.className = 'loading';
+            loadingDiv.appendChild(loadingSpinner);
+            
+            const loadingText = document.createTextNode('思考中...');
+            loadingDiv.appendChild(loadingText);
+            
+            appendMessageToHistory(loadingDiv);
+        }
+
+        function removeLoadingIndicator() {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.remove();
+            }
+        }
+
+        function updateHistoryDisplay() {
+            if (showHistoryCheckbox.checked) {
+                historyJson.textContent = JSON.stringify(messages, null, 2);
+            }
+        }
+
+        // --- 新增: 获取数据源数据 ---
+        async function fetchDataSource() {
+            // 此函数不再需要，因为数据只从文件获取
+            return null;
+        }
+
+        // --- Main Chat Logic ---
+        async function handleSendMessage() {
+            // 获取用户输入内容
+            const userMessageContent = userInput.value.trim();
+            
+            // 检查输入和当前状态
+            if (isWaitingForResponse) return;
+            
+            const isServerMode = queryTypeServer.checked;
+            if (isServerMode && !collectedData) {
+                // 不再尝试通过URL获取数据，提醒用户使用文件上传
+                const errorMsg = createMessageElement('请先选择数据文件', 'assistant', null, 'error');
+                appendMessageToHistory(errorMsg);
+                return;
+            } else if (!isServerMode && !userMessageContent) {
+                return; // 用户模式下需要有输入内容
+            }
+
+            // 设置等待状态
+            logDebug('开始发送消息', { isServerMode, userContent: userMessageContent });
+            isWaitingForResponse = true;
+            userInput.value = '';
+            userInput.disabled = true;
+            sendButton.disabled = true;
+            interruptButton.style.display = 'inline-block'; // 显示中断按钮
+
+            // 在用户模式下添加消息到UI
+            if (!isServerMode) {
+                messages.push({ role: 'user', content: userMessageContent });
+                const userMessageElement = createMessageElement(userMessageContent, 'user');
+                appendMessageToHistory(userMessageElement);
+                updateHistoryDisplay();
+            } else {
+                // 在服务器模式下显示一个提示
+                const background = queryBackground.value || "未指定";
+                const task = queryTask.value || "未指定";
+                const serverModeMsg = `开始服务器查询，数据源: 本地文件，${collectedData.length} 条数据\n背景: ${background}\n任务: ${task}`;
+                const serverMsgElement = createMessageElement(serverModeMsg, 'user');
+                appendMessageToHistory(serverMsgElement);
+            }
+
+            // 添加加载指示器
+            addLoadingIndicator();
+
+            // 准备API请求
+            const API_ENDPOINT = `${serverUrlInput.value}/v1/streaming/query`;
+            const requestData = {
+                query_type: isServerMode ? 'server' : 'user', // 根据选择设置query_type
+                qa_id: `web-${Date.now()}`,
+                user_id: 'web-test-user',
+                conversation_id: currentConversationId,
+                content: isServerMode 
+                    ? { 
+                        collected_data: collectedData,
+                        // 添加规划参数
+                        structured_query: {
+                            "background": queryBackground.value || "用户需要深入分析数据",
+                            "task": queryTask.value || "进行全面的品牌分析和竞品研究"
+                        }
+                    } 
+                    : { messages: JSON.parse(JSON.stringify(messages)) } // 用户模式使用messages
+            };
+            logDebug('发送API请求', { url: API_ENDPOINT, data: requestData });
+
+            let botMessageElement = null;
+            let botFullResponse = '';
+            let lastRawJson = null;
+
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestData)
+                });
+
+                removeLoadingIndicator(); // Remove indicator once response starts
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+                }
+                if (!response.body) {
+                     throw new Error('Response body is null');
+                }
+
+                logDebug('API响应成功，开始读取流');
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                // Create the bot message element placeholder
+                botMessageElement = createMessageElement('', 'assistant'); 
+                appendMessageToHistory(botMessageElement);
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) {
+                        logDebug('流读取完成');
+                        break;
+                    }
+                    
+                    const text = decoder.decode(value, { stream: true }); // stream: true is important
+                    // logDebug('收到流数据块', text); // Keep this log minimal now
+                    
+                    const lines = text.split('\n').filter(line => line.trim().length > 0);
+                    
+                    for (const line of lines) {
+                        try {
+                            const data = JSON.parse(line);
+                            lastRawJson = data; // Store the latest raw JSON
+                            // logDebug('解析JSON成功', data); // Keep this log minimal now
+
+                            if (data.task_type === 'stream' && data.content && typeof data.content.content === 'string') {
+                                const contentChunk = data.content.content;
+                                botFullResponse += contentChunk;
+                                // Update the existing bot message element by appending the chunk
+                                updateBotMessageContent(botMessageElement, contentChunk);
+                            } else if (data.task_type === 'report' && data.content && typeof data.content.content === 'string') {
+                                // 处理report类型响应
+                                const reportChunk = data.content.content;
+                                const reportElement = createMessageElement(`[报告]: ${reportChunk}`, 'assistant', data, 'tool');
+                                appendMessageToHistory(reportElement);
+                            } else if (data.task_type === 'crawl_task' || data.task_type === 'analysis_task') {
+                                // Add separate message for tool tasks
+                                const toolElement = createMessageElement(`[收到任务: ${data.task_type}]`, 'assistant', data, 'tool');
+                                appendMessageToHistory(toolElement);
+                            } else if (data.task_type === 'error') {
+                                // Add separate message for errors
+                                const errorElement = createMessageElement(`错误: ${data.content?.error || '未知错误'}`, 'assistant', data, 'error');
+                                appendMessageToHistory(errorElement);
+                            } else if (data.task_type === 'done' && data.content) {
+                                // 处理done类型响应
+                                const doneElement = createMessageElement(`[完成] 状态: ${data.content.status || 'unknown'}`, 'assistant', data, 'tool');
+                                appendMessageToHistory(doneElement);
+                                if (data.content.message) {
+                                    const summaryElement = createMessageElement(`摘要: ${data.content.message}`, 'assistant');
+                                    appendMessageToHistory(summaryElement);
+                                }
+                            } else {
+                                logDebug('收到未知任务类型或格式', data);
+                            }
+                        } catch (e) {
+                            console.error('解析流中的JSON失败:', e, '\nLine:', line);
+                            logDebug('解析流中的JSON失败', { error: e.message, line: line });
+                        } 
+                    }
+                } // End while loop
+
+                // Final update after stream ends
+                finalizeBotMessage(botMessageElement, botFullResponse, lastRawJson);
+                logDebug('最终机器人回复', botFullResponse);
+
+                // Add final response to state if it has content
+                if (botFullResponse && !isServerMode) {
+                    messages.push({ role: 'assistant', content: botFullResponse });
+                    updateHistoryDisplay();
+                }
+
+            } catch (error) {
+                console.error('处理消息时出错:', error);
+                logDebug('处理消息时出错', { error: error.message, stack: error.stack });
+                removeLoadingIndicator();
+                const errorElement = createMessageElement(`请求或处理失败: ${error.message}`, 'assistant', null, 'error');
+                appendMessageToHistory(errorElement);
+            } finally {
+                isWaitingForResponse = false;
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                interruptButton.style.display = 'none'; // 隐藏中断按钮
+                userInput.focus();
+                logDebug('消息处理流程结束');
+            }
+        }
+
+        // 添加中断请求处理函数
+        async function handleInterrupt() {
+            if (!isWaitingForResponse) return;
+            
+            logDebug('发送中断请求');
+            const interruptElement = createMessageElement('用户请求中断当前处理', 'user');
+            appendMessageToHistory(interruptElement);
+            
+            try {
+                const API_ENDPOINT = `${serverUrlInput.value}/v1/streaming/query`;
+                const interruptData = {
+                    query_type: 'interrupt',
+                    qa_id: `web-${Date.now()}`,
+                    user_id: 'web-test-user',
+                    conversation_id: currentConversationId,
+                    content: {
+                        interrupt_reason: 'user_cancel'
+                    }
+                };
+                
+                logDebug('发送中断请求', interruptData);
+                
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(interruptData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`中断请求失败: ${response.status} ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                logDebug('中断请求响应', result);
+                
+                const interruptResponseElement = createMessageElement(
+                    `[系统] 处理已中断: ${result.reason || '用户取消'}`, 
+                    'assistant'
+                );
+                appendMessageToHistory(interruptResponseElement);
+                
+            } catch (error) {
+                console.error('中断请求出错:', error);
+                logDebug('中断请求出错', { error: error.message, stack: error.stack });
+                const errorElement = createMessageElement(`中断请求失败: ${error.message}`, 'assistant', null, 'error');
+                appendMessageToHistory(errorElement);
+            } finally {
+                // 恢复UI状态
+                removeLoadingIndicator();
+                isWaitingForResponse = false;
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                interruptButton.style.display = 'none';
+                userInput.focus();
+            }
+        }
+
+        // --- Event Listeners Setup ---
+        function setupEventListeners() {
+            // 添加查询类型切换事件
+            queryTypeUser.addEventListener('change', function() {
+                dataSourceContainer.style.display = 'none';
+                userInput.placeholder = '输入消息...';
+                logDebug('切换到用户查询模式');
+            });
+            
+            queryTypeServer.addEventListener('change', function() {
+                dataSourceContainer.style.display = 'block';
+                userInput.placeholder = '[服务器模式] 可选：添加任务描述...';
+                logDebug('切换到服务器查询模式');
+            });
+            
+            // 添加中断按钮事件
+            interruptButton.addEventListener('click', function() {
+                if (isWaitingForResponse) {
+                    handleInterrupt();
+                }
+            });
+
+            sendButton.addEventListener('click', (event) => {
+                event.preventDefault(); 
+                try {
+                    handleSendMessage();
+                } catch (e) {
+                    console.error("同步错误发生在 sendButton 点击处理中:", e);
+                    logDebug("同步错误发生在 sendButton 点击处理中", { error: e.message, stack: e.stack });
+                    isWaitingForResponse = false; 
+                    userInput.disabled = false;
+                    sendButton.disabled = false;
+                }
+            });
+
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    try {
+                        handleSendMessage();
+                    } catch (err) {
+                         console.error("同步错误发生在 userInput 回车处理中:", err);
+                         logDebug("同步错误发生在 userInput 回车处理中", { error: err.message, stack: err.stack });
+                         isWaitingForResponse = false; 
+                         userInput.disabled = false;
+                         sendButton.disabled = false;
+                    }
+                }
+            });
+
+            clearChatButton.addEventListener('click', () => {
+                logDebug('清空聊天按钮点击');
+                chatHistory.innerHTML = ''; // Clear UI
+                messages = []; // Clear state
+                collectedData = null; // 清空已加载的数据
+                currentConversationId = `web-test-conv-${Date.now()}`; // Reset conversation ID
+                updateHistoryDisplay();
+                const welcomeElement = createMessageElement('欢迎使用Cotex Chatbot测试页面！请输入您的问题。', 'assistant');
+                appendMessageToHistory(welcomeElement);
+                finalizeBotMessage(welcomeElement, '欢迎使用Cotex Chatbot测试页面！请输入您的问题。'); // Use finalize to set content and state
+                logDebug('聊天已清空，新会话ID:', currentConversationId);
+            });
+
+            showRawCheckbox.addEventListener('change', function() {
+                const allMessages = chatHistory.querySelectorAll('.message');
+                allMessages.forEach(msgElement => {
+                    const rawJsonData = msgElement.dataset.rawJson;
+                    if (rawJsonData) {
+                        try {
+                            updateJsonView(msgElement, JSON.parse(rawJsonData));
+                        } catch (e) {
+                            logDebug("Error parsing rawJson from dataset on toggle", e);
+                        }
+                    }
+                });
+            });
+
+            debugModeCheckbox.addEventListener('change', function() {
+                 document.body.classList.toggle('debug-mode', this.checked);
+            });
+            
+            showDebugCheckbox.addEventListener('change', function() {
+                 debugArea.style.display = this.checked ? 'block' : 'none';
+            });
+        
+            showHistoryCheckbox.addEventListener('change', function() {
+                historyContainer.style.display = this.checked ? 'block' : 'none';
+                updateHistoryDisplay(); // Update display when shown/hidden
+            });
+        }
+
+        // --- Initialization ---
+        function initializeChat() {
+            setupEventListeners();
+            setupFileUpload();
+            const welcomeElement = createMessageElement('欢迎使用Cotex Chatbot测试页面！请输入您的问题。', 'assistant');
+            appendMessageToHistory(welcomeElement);
+            finalizeBotMessage(welcomeElement, '欢迎使用Cotex Chatbot测试页面！请输入您的问题。'); // Use finalize to set content and state
+            logDebug('测试页面已加载并初始化');
+        }
+
+        // 添加文件选择器
+        function setupFileUpload() {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.id = 'data-file-input';
+            fileInput.accept = '.json';
+            fileInput.style.marginLeft = '10px';
+            
+            const label = document.createElement('label');
+            label.textContent = '选择本地文件: ';
+            
+            dataSourceContainer.insertBefore(label, dataSourceStatus);
+            dataSourceContainer.insertBefore(fileInput, dataSourceStatus);
+            
+            fileInput.addEventListener('change', handleFileSelect);
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (Array.isArray(data)) {
+                        collectedData = data;
+                        dataSourceStatus.textContent = `成功加载 ${data.length} 条数据`;
+                        dataSourceStatus.style.color = 'green';
+                        logDebug('从本地文件加载数据成功', { dataLength: data.length });
+                    } else {
+                        throw new Error('数据不是数组格式');
+                    }
+                } catch (error) {
+                    dataSourceStatus.textContent = `解析文件失败: ${error.message}`;
+                    dataSourceStatus.style.color = 'red';
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Start the application
+        initializeChat();
+    </script>
+</body>
+</html> 

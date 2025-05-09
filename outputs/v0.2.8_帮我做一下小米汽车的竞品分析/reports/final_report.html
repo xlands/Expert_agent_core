@@ -1,0 +1,2720 @@
+
+            <!DOCTYPE html>
+            <html lang="zh-CN">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>分析报告</title>
+                <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+                <style>
+        /* 全局样式 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333333;
+        }
+        
+        .report-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+        }
+        
+        .report-header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        
+        .report-header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+        
+        .report-date {
+            font-size: 14px;
+            color: #999999;
+        }
+        
+        /* 模块通用样式 */
+        .module {
+            margin-bottom: 32px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+        
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background-color: #3366FF;
+            color: white;
+        }
+        
+        .module-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .module-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .module-content {
+            padding: 24px;
+        }
+        
+        .insight {
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        
+        /* 图表容器 */
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 24px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #FCFCFC;
+            border: 1px solid #EEEEEE;
+        }
+        
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        
+        .data-table th {
+            font-weight: bold;
+            background-color: #F7F7F7;
+        }
+        
+        .data-table tr:hover {
+            background-color: #F5F9FF;
+        }
+        
+        /* 用户原声样式 */
+        .quotes-container {
+            margin-top: 24px;
+        }
+        
+        .quote-card {
+            padding: 16px;
+            margin-bottom: 16px;
+            background-color: #F9F9F9;
+            border-radius: 8px;
+            border-left: 4px solid #3366FF;
+        }
+        
+        .quote-content {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .quote-meta {
+            font-size: 12px;
+            color: #999999;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1199px) {
+            .report-container {
+                padding: 16px;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .module-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .data-table {
+                font-size: 12px;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 8px;
+            }
+        }
+        
+        /* 品牌优化建议样式 */
+        .suggestion-card {
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            border: 1px solid #EEEEEE;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .suggestion-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #3366FF;
+        }
+        
+        .suggestion-content {
+            margin-bottom: 12px;
+        }
+        
+        .suggestion-list {
+            padding-left: 24px;
+            margin-bottom: 12px;
+        }
+        
+        .suggestion-data {
+            font-size: 12px;
+            padding: 8px;
+            background-color: #F5F9FF;
+            border-radius: 4px;
+        }
+        
+        /* 页脚样式 */
+        .report-footer {
+            margin-top: 48px;
+            padding-top: 16px;
+            border-top: 1px solid #EEEEEE;
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+        }
+        </style>
+            </head>
+            <body>
+                <div class="report-container">
+                    <div class="report-header">
+                        <h1>分析报告</h1>
+                        <p class="report-date">生成日期：2025年04月10日</p>
+                    </div>
+            <div style="border-radius: 8px; border: 1px solid #e0e0e0; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+    <div style="font-size: 18px; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center;">
+        执行摘要
+        <span style="margin-left: auto; font-size: 16px;">📋</span>
+    </div>
+    <div style="font-size: 14px; line-height: 1.6;">
+        【分析报告】在过去一段时间获得大量相关提及，品牌讨论热度最高为小米SU7 Ultra（占比9.23%），正面评价占比高达100%；用户最关注高性能和设计美学特征，主要关键词包括"纽北战神"（权重10）和"零百1.98秒"（权重10）；主要竞争对手为小鹏P7+，竞争焦点集中在性能、外观设计和科技感等7个维度。负面反馈主要集中在空间较小（权重7）和驾驶舒适度方面。重庆地区用户互动热度最高（热度值30028），广东和上海分列二三位。
+    </div>
+</div><div class="brand-comparison-module">
+  <div class="module-header">
+    <h2>品牌声量分析</h2>
+    <div class="header-actions">
+      <button class="action-btn">🔄 切换指标</button>
+      <button class="action-btn">📊 TOP10</button>
+    </div>
+  </div>
+
+  <div class="insight-section">
+    <div class="insight-card">
+      <div class="insight-badge">核心洞察</div>
+      <p>在所有评论和内容中，<span class="highlight-brand">小米SU7 Ultra</span>品牌讨论热度最高，占比达<span class="highlight-data">9.23%</span>，领先第二名品牌 <span class="highlight-data">0.2%</span></p>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <div id="brandComparisonChart" style="width: 100%; height: 400px;"></div>
+  </div>
+
+  <div class="data-table-section">
+    <h3>数据明细</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>品牌</th>
+          <th>声量</th>
+          <th>讨论热度占比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>小米SU7 Ultra</td>
+          <td>高</td>
+          <td>9.23%</td>
+        </tr>
+        <tr>
+          <td>小米</td>
+          <td>高</td>
+          <td>9.03%</td>
+        </tr>
+        <tr>
+          <td>宝马M3</td>
+          <td>中高</td>
+          <td>8.86%</td>
+        </tr>
+        <tr>
+          <td>比亚迪</td>
+          <td>中</td>
+          <td>6.24%</td>
+        </tr>
+        <tr>
+          <td>小鹏</td>
+          <td>中</td>
+          <td>5.57%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="user-quotes-section">
+    <h3>用户原声</h3>
+    <div class="quote-card">
+      <div class="quote-content">"小米SU7 Ultra正式发布，52.99万起，对上燃油时代的操控王者宝马M3，谁更值得选？1️⃣外观小米SU7 Ultra：新的太空银配色很高级，低趴的姿态，搭配多处碳纤维套件和夸张的固定大尾翼..."</div>
+      <div class="quote-meta">
+        <span class="quote-source">来自小红书</span>
+        <span class="quote-stats">👍 5.5k · <a href="https://www.xiaohongshu.com/search_result/67c0746900000000060285ce?xsec_token=AB73oSrPk8wTSxwNb9nuaHZshHybMXI5rBY_yaQSyDYxk=&xsec_source=pc_search" target="_blank">点击查看原文</a></span>
+      </div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-content">"兄弟们，划重点！小米SU7 Ultra今晚炸场了，简单唠几个狠的：1. 性能爆表零百加速1.98秒，1548匹马力三电机直接干翻超跑，至高时速350km/h。宁德时代赛道电池包+11分钟快充80%。..."</div>
+      <div class="quote-meta">
+        <span class="quote-source">来自小红书</span>
+        <span class="quote-stats">👍 280 · <a href="https://www.xiaohongshu.com/search_result/67c066f30000000007034f2c?xsec_token=AB73oSrPk8wTSxwNb9nuaHZgJYDv2ItxtRFsS8aNiF2oE=&xsec_source=pc_search" target="_blank">点击查看原文</a></span>
+      </div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-content">"随着小米汽车的推出，年轻人们迎来了新的选择。面对小米SU7、SU7 Ultra和即将上市的YU7，该如何选择呢？🔥小米 SU7（标准版/Pro版/Max版）【基本信息】尺寸：4997x1963x1455mm..."</div>
+      <div class="quote-meta">
+        <span class="quote-source">来自小红书</span>
+        <span class="quote-stats">👍 900 · <a href="https://www.xiaohongshu.com/search_result/67c313c4000000002903ac2a?xsec_token=ABZhq5wWuwBLsp8zcYcLjmdi4w2dg61MahUP-StJnVaJU=&xsec_source=pc_search" target="_blank">点击查看原文</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.brand-comparison-module {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.module-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  background: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #666;
+}
+
+.insight-section {
+  margin-bottom: 24px;
+}
+
+.insight-card {
+  background: #f8f9ff;
+  border-left: 4px solid #3366FF;
+  padding: 16px;
+  border-radius: 0 4px 4px 0;
+}
+
+.insight-badge {
+  display: inline-block;
+  background: #3366FF;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.highlight-brand {
+  color: #3366FF;
+  font-weight: 600;
+}
+
+.highlight-data {
+  color: #FF6633;
+  font-weight: 600;
+}
+
+.data-table-section {
+  margin: 24px 0;
+}
+
+.data-table-section h3, .user-quotes-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.data-table th, .data-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+  background: #f5f5f5;
+  color: #666;
+  font-weight: 500;
+}
+
+.data-table tr:hover {
+  background: #f8f9ff;
+}
+
+.user-quotes-section {
+  margin-top: 24px;
+}
+
+.quote-card {
+  background: #f9f9f9;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-left: 3px solid #3366FF;
+}
+
+.quote-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quote-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #999;
+}
+
+.quote-source {
+  color: #666;
+}
+
+.quote-stats a {
+  color: #3366FF;
+  text-decoration: none;
+}
+
+.quote-stats a:hover {
+  text-decoration: underline;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+  var chartDom = document.getElementById('brandComparisonChart');
+  var myChart = echarts.init(chartDom);
+  var option;
+
+  option = {
+    color: ['#3366FF'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'value',
+      axisLine: {
+        lineStyle: {
+          color: '#EFEFEF'
+        }
+      },
+      axisLabel: {
+        color: '#666',
+        formatter: '{value}%'
+      },
+      splitLine: {
+        lineStyle: {
+          color: '#EFEFEF'
+        }
+      }
+    },
+    yAxis: {
+      type: 'category',
+      data: ['小米SU7 Ultra', '小米', '宝马M3', '比亚迪', '小鹏', '问界', '蔚来', '理想', '极氪', '皓设计'].reverse(),
+      axisLine: {
+        lineStyle: {
+          color: '#EFEFEF'
+        }
+      },
+      axisLabel: {
+        color: '#666'
+      }
+    },
+    series: [
+      {
+        name: '讨论热度占比',
+        type: 'bar',
+        data: [9.23, 9.03, 8.86, 6.24, 5.57, 3.31, 3.19, 2.91, 2.41, 2.37].reverse(),
+        label: {
+          show: true,
+          position: 'right',
+          formatter: '{c}%',
+          color: '#333'
+        },
+        itemStyle: {
+          borderRadius: [0, 4, 4, 0]
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#FF6633'
+          }
+        }
+      }
+    ]
+  };
+
+  option && myChart.setOption(option);
+  
+  window.addEventListener('resize', function() {
+    myChart.resize();
+  });
+</script><div class="brand-sentiment-module">
+  <div class="module-header">
+    <h2>品牌情感分析</h2>
+    <div class="platform-filter">
+      <span>平台筛选</span>
+      <button class="refresh-btn">🔄</button>
+    </div>
+  </div>
+
+  <div class="insights-section">
+    <div class="key-insight">
+      <h3>核心洞察</h3>
+      <p>小米SU7 Ultra获得了100.0%的正面评价，显示出极高的用户满意度或市场认可度，远超其他品牌。</p>
+      <p>小鹏的负面评价占比最高（18.6%），远超其他品牌（均低于5%），需重点关注其产品或服务中的潜在问题。</p>
+    </div>
+
+    <div class="visualization-container">
+      <div class="chart-container">
+        <div id="sentimentChart" style="width: 100%; height: 400px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-quotes-section">
+    <h3>用户原声</h3>
+    <div class="no-data-message">暂无数据</div>
+  </div>
+</div>
+
+<style>
+.brand-sentiment-module {
+  font-family: 'Arial', sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.module-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.platform-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.insights-section {
+  padding: 20px;
+}
+
+.key-insight {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.key-insight h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.key-insight p {
+  margin: 8px 0;
+  line-height: 1.5;
+  color: #555;
+}
+
+.visualization-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.chart-container {
+  flex: 1;
+  background-color: white;
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-quotes-section {
+  padding: 0 20px 20px;
+}
+
+.user-quotes-section h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-style: italic;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const chartDom = document.getElementById('sentimentChart');
+  const myChart = echarts.init(chartDom);
+  
+  const option = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    legend: {
+      data: ['正面评价', '中性评价', '负面评价'],
+      top: 'top'
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      data: ['小米SU7 Ultra', '小米', '宝马M3', '比亚迪', '小鹏', '问界', '蔚来', '理想', '极氪', '皓设计'],
+      axisLabel: {
+        rotate: 45,
+        interval: 0
+      }
+    },
+    yAxis: {
+      type: 'value',
+      max: 100,
+      axisLabel: {
+        formatter: '{value}%'
+      }
+    },
+    series: [
+      {
+        name: '正面评价',
+        type: 'bar',
+        stack: 'total',
+        emphasis: {
+          focus: 'series'
+        },
+        data: [100.0, 61.9, 0.0, 37.0, 27.4, 30.3, 30.2, 21.6, 40.1, 0.0],
+        itemStyle: {
+          color: '#52c41a'
+        },
+        label: {
+          show: true,
+          position: 'inside',
+          formatter: function(params) {
+            return params.value > 0 ? params.value + '%' : '';
+          }
+        }
+      },
+      {
+        name: '中性评价',
+        type: 'bar',
+        stack: 'total',
+        emphasis: {
+          focus: 'series'
+        },
+        data: [0.0, 38.1, 100.0, 58.4, 54.0, 68.5, 66.0, 77.2, 55.0, 100.0],
+        itemStyle: {
+          color: '#faad14'
+        },
+        label: {
+          show: true,
+          position: 'inside',
+          formatter: function(params) {
+            return params.value > 0 ? params.value + '%' : '';
+          }
+        }
+      },
+      {
+        name: '负面评价',
+        type: 'bar',
+        stack: 'total',
+        emphasis: {
+          focus: 'series'
+        },
+        data: [0.0, 0.0, 0.0, 4.6, 18.6, 1.2, 3.8, 1.2, 4.9, 0.0],
+        itemStyle: {
+          color: '#f5222d'
+        },
+        label: {
+          show: true,
+          position: 'inside',
+          formatter: function(params) {
+            return params.value > 0 ? params.value + '%' : '';
+          }
+        }
+      }
+    ]
+  };
+
+  myChart.setOption(option);
+  
+  window.addEventListener('resize', function() {
+    myChart.resize();
+  });
+});
+</script><div class="industry-trends-module">
+  <div class="module-header">
+    <h2>行业趋势分析</h2>
+    <div class="header-actions">
+      <button class="action-btn">🔄 切换时间</button>
+      <button class="action-btn">📊 热点榜</button>
+    </div>
+  </div>
+
+  <div class="core-insights">
+    <h3>【核心洞察】</h3>
+    <p>当前行业最热门的讨论主题是<span class="highlight">"新能源车企都别卷了，要不试试个人飞行器吧"</span>，热度值达到<span class="highlight">56,863</span>，主要涉及<span class="highlight">皓设计</span>。话题热度断层现象显著，排名第一的话题热度是第二名的3.2倍，表明公众对突破性交通工具创新的关注度远超传统车企竞争话题。</p>
+  </div>
+
+  <div class="visualization-container">
+    <div id="heatChart" style="width: 100%; height: 300px;"></div>
+  </div>
+
+  <div class="hot-topics">
+    <h3>【热点话题TOP3】</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>话题</th>
+          <th>热度值</th>
+          <th>发布日期</th>
+          <th>涉及品牌</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="https://www.xiaohongshu.com/search_result/6630c6d8000000001e034f34?xsec_token=ABBF5ibguyQtWDHdz6bBrFauEvep3_kf8DnIrETJm8DC4=&xsec_source=pc_search" target="_blank">新能源车企都别卷了，要不试试个人飞行器吧</a></td>
+          <td>56,863</td>
+          <td>2024-04-30</td>
+          <td>皓设计</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.xiaohongshu.com/search_result/67c0746900000000060285ce?xsec_token=AB73oSrPk8wTSxwNb9nuaHZshHybMXI5rBY_yaQSyDYxk=&xsec_source=pc_search" target="_blank">宝马：服了你了</a></td>
+          <td>17,722</td>
+          <td>2025/02/28</td>
+          <td>小米SU7 Ultra, 宝马M3, 宝马</td>
+        </tr>
+        <tr>
+          <td><a href="https://www.xiaohongshu.com/search_result/672db0b8000000001a034db5?xsec_token=AB6NrG8tDaiZDTsB4loi3tiiL_HGGR2KXrdMtvCQNIiMc=&xsec_source=pc_search" target="_blank">龙岩第一台？挑战国产电车里的天花板</a></td>
+          <td>14,904</td>
+          <td>2024-11-08</td>
+          <td>某合汽车</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="user-quotes">
+    <h3>【用户原声】</h3>
+    <div class="quote-card">
+      <p class="quote-content">"看完北京车展觉得国内的车企太卷太难了，要不各大佬们试试个人飞行器这个赛道，做出来绝对遥遥领先市值翻倍"</p>
+      <div class="quote-meta">
+        <span class="platform">来自小红书</span>
+        <span class="stats">👍 XXk · 🔥 热度值: 56,863</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.industry-trends-module {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.module-header h2 {
+  font-size: 20px;
+  color: #333;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  background-color: #f5f7fa;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.action-btn:hover {
+  background-color: #ecf5ff;
+  border-color: #c6e2ff;
+  color: #409eff;
+}
+
+.core-insights {
+  margin-bottom: 25px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.core-insights h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.core-insights p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #606266;
+  margin: 0;
+}
+
+.highlight {
+  color: #409eff;
+  font-weight: 500;
+}
+
+.visualization-container {
+  margin: 25px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.hot-topics {
+  margin: 25px 0;
+}
+
+.hot-topics h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ebeef5;
+}
+
+th {
+  background-color: #f5f7fa;
+  color: #909399;
+  font-weight: 500;
+}
+
+td {
+  color: #606266;
+}
+
+td a {
+  color: #409eff;
+  text-decoration: none;
+}
+
+td a:hover {
+  text-decoration: underline;
+}
+
+.user-quotes {
+  margin-top: 25px;
+}
+
+.user-quotes h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.quote-card {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.quote-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #606266;
+  margin: 0 0 10px 0;
+  font-style: italic;
+}
+
+.quote-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #909399;
+}
+
+.platform {
+  color: #409eff;
+}
+
+.stats {
+  color: #f56c6c;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+// 初始化图表
+var chartDom = document.getElementById('heatChart');
+var myChart = echarts.init(chartDom);
+
+// 图表配置
+var option = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'category',
+    data: ['新能源车企都别卷了，要不试试个人飞行器吧', '宝马：服了你了', '龙岩第一台？挑战国产电车里的天花板'],
+    axisLabel: {
+      interval: 0,
+      rotate: 30,
+      fontSize: 12
+    }
+  },
+  yAxis: {
+    type: 'value',
+    name: '热度值',
+    nameTextStyle: {
+      padding: [0, 0, 0, 40]
+    }
+  },
+  series: [
+    {
+      name: '热度值',
+      type: 'bar',
+      data: [
+        {
+          value: 56863,
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#83bff6' },
+              { offset: 0.5, color: '#188df0' },
+              { offset: 1, color: '#0c59b0' }
+            ])
+          }
+        },
+        {
+          value: 17722,
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#f7b77f' },
+              { offset: 0.5, color: '#f78e3d' },
+              { offset: 1, color: '#d96b0b' }
+            ])
+          }
+        },
+        {
+          value: 14904,
+          itemStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: '#a0d468' },
+              { offset: 0.5, color: '#8cc152' },
+              { offset: 1, color: '#5d9e43' }
+            ])
+          }
+        }
+      ],
+      barWidth: '40%',
+      label: {
+        show: true,
+        position: 'top',
+        formatter: '{c}'
+      },
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }
+  ]
+};
+
+// 应用配置
+myChart.setOption(option);
+
+// 响应式调整
+window.addEventListener('resize', function() {
+  myChart.resize();
+});
+</script><div class="competitor-analysis-module">
+  <div class="module-header">
+    <h2>竞争品牌分析</h2>
+    <span class="top5-badge">📊 TOP5</span>
+  </div>
+  
+  <div class="core-insight">
+    <h3>核心洞察</h3>
+    <p>小米SU7 Ultra的主要竞争对手是小鹏P7+，两者在电动汽车市场存在直接竞争。用户在选择这两款车型时最关注的7个因素依次为性能、外观设计、科技感、舒适性、续航、价格和品牌知名度。</p>
+  </div>
+  
+  <div class="visualization-container">
+    <div class="network-chart" id="competitorNetworkChart"></div>
+    <div class="trend-chart" id="userTrendChart"></div>
+  </div>
+  
+  <div class="competitor-table">
+    <h3>竞争品牌TOP5</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>品牌</th>
+          <th>提及率</th>
+          <th>用户流失率</th>
+          <th>用户摇摆率</th>
+          <th>竞争度</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>小鹏P7+</td>
+          <td>35%</td>
+          <td>15%</td>
+          <td>25%</td>
+          <td>★★★★★</td>
+        </tr>
+        <tr>
+          <td>宝马M3</td>
+          <td>25%</td>
+          <td>10%</td>
+          <td>15%</td>
+          <td>★★★★☆</td>
+        </tr>
+        <tr>
+          <td>比亚迪汉EV</td>
+          <td>20%</td>
+          <td>8%</td>
+          <td>12%</td>
+          <td>★★★☆☆</td>
+        </tr>
+        <tr>
+          <td>特斯拉Model 3</td>
+          <td>15%</td>
+          <td>5%</td>
+          <td>10%</td>
+          <td>★★☆☆☆</td>
+        </tr>
+        <tr>
+          <td>蔚来ET7</td>
+          <td>5%</td>
+          <td>2%</td>
+          <td>3%</td>
+          <td>★☆☆☆☆</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="user-quotes">
+    <h3>用户原声</h3>
+    <div class="quote-card">
+      <p>"试驾后从小米SU7转向小鹏P7+"</p>
+      <div class="quote-meta">
+        <span class="likes">👍 1.2k</span>
+        <span class="brands">涉及品牌: 小米SU7 Ultra vs 小鹏P7+</span>
+      </div>
+    </div>
+    <div class="quote-card">
+      <p>"对比小鹏P7+和小米SU7的续航、快充等方面"</p>
+      <div class="quote-meta">
+        <span class="likes">👍 0.8k</span>
+        <span class="brands">涉及品牌: 小米SU7 Ultra vs 小鹏P7+</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.competitor-analysis-module {
+  font-family: 'Arial', sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.module-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.top5-badge {
+  background-color: #f0f7ff;
+  padding: 5px 10px;
+  border-radius: 20px;
+  color: #1890ff;
+  font-size: 14px;
+}
+
+.core-insight {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.core-insight h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.visualization-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.network-chart, .trend-chart {
+  flex: 1;
+  height: 300px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.competitor-table {
+  margin-bottom: 20px;
+}
+
+.competitor-table h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.user-quotes h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.quote-card {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.quote-card p {
+  margin: 0 0 10px 0;
+  font-style: italic;
+}
+
+.quote-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+.likes {
+  color: #1890ff;
+}
+
+.brands {
+  color: #666;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+// 竞争关系网络图
+var networkChart = echarts.init(document.getElementById('competitorNetworkChart'));
+var networkOption = {
+  title: {
+    text: '品牌竞争关系网络',
+    left: 'center',
+    top: 10
+  },
+  tooltip: {},
+  legend: {
+    data: ['基础关系', '用户摇摆', '用户流出'],
+    right: 10,
+    top: 20
+  },
+  series: [{
+    type: 'graph',
+    layout: 'force',
+    data: [{
+      id: '小米SU7 Ultra',
+      name: '小米SU7 Ultra',
+      symbolSize: 50,
+      category: 0,
+      itemStyle: {
+        color: '#1890ff'
+      }
+    }, {
+      id: '小鹏P7+',
+      name: '小鹏P7+',
+      symbolSize: 40,
+      category: 1,
+      itemStyle: {
+        color: '#722ed1'
+      }
+    }, {
+      id: '宝马M3',
+      name: '宝马M3',
+      symbolSize: 30,
+      category: 1,
+      itemStyle: {
+        color: '#13c2c2'
+      }
+    }, {
+      id: '比亚迪汉EV',
+      name: '比亚迪汉EV',
+      symbolSize: 30,
+      category: 1,
+      itemStyle: {
+        color: '#52c41a'
+      }
+    }],
+    links: [{
+      source: '小米SU7 Ultra',
+      target: '小鹏P7+',
+      value: 1,
+      lineStyle: {
+        width: 2,
+        color: '#666'
+      }
+    }, {
+      source: '小米SU7 Ultra',
+      target: '小鹏P7+',
+      value: 2,
+      lineStyle: {
+        width: 4,
+        color: '#faad14'
+      },
+      label: {
+        show: true,
+        formatter: '2用户摇摆'
+      }
+    }, {
+      source: '小米SU7 Ultra',
+      target: '小鹏P7+',
+      value: 3,
+      lineStyle: {
+        width: 6,
+        color: '#f5222d'
+      },
+      label: {
+        show: true,
+        formatter: '1用户流出'
+      }
+    }, {
+      source: '小米SU7 Ultra',
+      target: '宝马M3',
+      value: 1,
+      lineStyle: {
+        width: 2,
+        color: '#666'
+      }
+    }, {
+      source: '小米SU7 Ultra',
+      target: '比亚迪汉EV',
+      value: 1,
+      lineStyle: {
+        width: 2,
+        color: '#666'
+      }
+    }],
+    categories: [{
+      name: '主品牌'
+    }, {
+      name: '竞争品牌'
+    }],
+    roam: true,
+    label: {
+      show: true,
+      position: 'right'
+    },
+    force: {
+      repulsion: 100,
+      edgeLength: 100
+    },
+    emphasis: {
+      focus: 'adjacency',
+      lineStyle: {
+        width: 4
+      }
+    }
+  }]
+};
+networkChart.setOption(networkOption);
+
+// 用户流失趋势图
+var trendChart = echarts.init(document.getElementById('userTrendChart'));
+var trendOption = {
+  title: {
+    text: '用户流失趋势',
+    left: 'center',
+    top: 10
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {
+    data: ['用户摇摆', '用户流出'],
+    right: 10,
+    top: 20
+  },
+  xAxis: {
+    type: 'category',
+    data: ['小鹏P7+', '宝马M3', '比亚迪汉EV']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [{
+    name: '用户摇摆',
+    type: 'bar',
+    data: [2, 1, 1],
+    itemStyle: {
+      color: '#faad14'
+    }
+  }, {
+    name: '用户流出',
+    type: 'bar',
+    data: [1, 0, 0],
+    itemStyle: {
+      color: '#f5222d'
+    }
+  }]
+};
+trendChart.setOption(trendOption);
+
+// 响应式调整
+window.addEventListener('resize', function() {
+  networkChart.resize();
+  trendChart.resize();
+});
+</script><div class="product-feature-analysis">
+  <div class="module-header">
+    <h2>产品特征分析</h2>
+    <div class="header-actions">
+      <button class="brand-switch">🔄 切换品牌</button>
+      <button class="detail-btn">🔍 详情</button>
+    </div>
+  </div>
+
+  <div class="insights-section">
+    <div class="core-insight">
+      <p>【核心洞察】用户最关注的产品特征是「外观设计和智能科技」，其中小米SU7 Ultra在外观设计和性能表现上均获得满分5分，成为所有品牌中唯一在这两个维度上达到最高分的车型。小鹏在智能科技上表现最佳（5分），但其他维度如品牌影响力和驾驶体验较弱（3分）。</p>
+    </div>
+
+    <div class="visualization-container">
+      <div id="radar-chart" style="width: 100%; height: 400px;"></div>
+    </div>
+  </div>
+
+  <div class="feature-comparison">
+    <h3>【特征对比明细】</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>特征</th>
+          <th>小米SU7 Ultra</th>
+          <th>小米</th>
+          <th>宝马M3</th>
+          <th>比亚迪</th>
+          <th>小鹏</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>外观设计</td>
+          <td>★★★★★</td>
+          <td>★★★★☆</td>
+          <td>★★★★★</td>
+          <td>★★★★☆</td>
+          <td>★★★★☆</td>
+        </tr>
+        <tr>
+          <td>性能表现</td>
+          <td>★★★★★</td>
+          <td>★★★★☆</td>
+          <td>★★★★☆</td>
+          <td>★★★☆☆</td>
+          <td>★★★☆☆</td>
+        </tr>
+        <tr>
+          <td>智能科技</td>
+          <td>★★★★☆</td>
+          <td>★★★★☆</td>
+          <td>★★★☆☆</td>
+          <td>★★★☆☆</td>
+          <td>★★★★★</td>
+        </tr>
+        <tr>
+          <td>价格与补贴</td>
+          <td>★★★☆☆</td>
+          <td>★★★★☆</td>
+          <td>★★☆☆☆</td>
+          <td>★★★★☆</td>
+          <td>★★★☆☆</td>
+        </tr>
+        <tr>
+          <td>续航与充电</td>
+          <td>★★★★☆</td>
+          <td>★★★★☆</td>
+          <td>★★☆☆☆</td>
+          <td>★★★★☆</td>
+          <td>★★★★☆</td>
+        </tr>
+        <tr>
+          <td>驾驶体验</td>
+          <td>★★★★☆</td>
+          <td>★★★★☆</td>
+          <td>★★★★★</td>
+          <td>★★★☆☆</td>
+          <td>★★★☆☆</td>
+        </tr>
+        <tr>
+          <td>品牌影响力</td>
+          <td>★★★★☆</td>
+          <td>★★★★☆</td>
+          <td>★★★★★</td>
+          <td>★★★★☆</td>
+          <td>★★★☆☆</td>
+        </tr>
+        <tr>
+          <td>空间舒适度</td>
+          <td>★★★☆☆</td>
+          <td>★★★☆☆</td>
+          <td>★★★☆☆</td>
+          <td>★★★★☆</td>
+          <td>★★★★☆</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="user-quotes">
+    <h3>【用户原声】</h3>
+    <div class="quote-card">
+      <p>🔍 <strong>智能科技</strong>: "吉利银河全新E8上市，14.98万起，好家伙，比BYD更卷的来了，三款纯电轿车谁更香？配置选择热门的银河E8探索智驾版、比亚迪汉EV尊荣智驾版、小鹏P7➕长续航MAX版"</p>
+      <div class="quote-meta">
+        <span>👍 1.2k · 品牌: 比亚迪</span>
+        <span>热度: 3957</span>
+      </div>
+    </div>
+    <div class="quote-card">
+      <p>🔍 <strong>智能科技</strong>: "三年期待，全新 #小鹏G9 终于来了！上周试驾时，营销小伙伴调侃我说小鹏G9是一款让我"意难平"的产品。其实造车10年，经历的挫折早就过眼云烟，真正让我略感遗憾的是"小鹏G9是一辆被我们耽误的好车"！"</p>
+      <div class="quote-meta">
+        <span>👍 636 · 品牌: 小鹏</span>
+        <span>热度: 2234</span>
+      </div>
+    </div>
+    <div class="quote-card">
+      <p>🔍 <strong>外观设计</strong>: "新一期的15万元落地的新能源轿车推荐，考虑了最新销量，价格，尺寸等因素，方便大家选车买车购车🚗【⚡️纯电】1.小鹏MONA M03：智驾功能强大，外观时尚，空间宽敞，门饰板软质材料包覆；超大全景天幕可视面积大且隔热效果好；高强度笼式乘员舱车身结构，白车身高强度钢和铝合金使用率高"</p>
+      <div class="quote-meta">
+        <span>👍 469 · 品牌: 比亚迪</span>
+        <span>热度: 931</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.product-feature-analysis {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.module-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.header-actions button {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.insights-section {
+  margin-bottom: 30px;
+}
+
+.core-insight {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.feature-comparison {
+  margin-bottom: 30px;
+}
+
+.feature-comparison h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.user-quotes h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.quote-card {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: #f8f9fa;
+}
+
+.quote-card p {
+  margin: 0 0 10px 0;
+  line-height: 1.5;
+}
+
+.quote-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #666;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const chartDom = document.getElementById('radar-chart');
+  const myChart = echarts.init(chartDom);
+  
+  const option = {
+    title: {
+      text: '多维度产品特征对比',
+      left: 'center',
+      top: 0
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      data: ['小米SU7 Ultra', '小米', '宝马M3', '比亚迪', '小鹏'],
+      bottom: 0
+    },
+    radar: {
+      indicator: [
+        { name: '外观设计', max: 5 },
+        { name: '性能表现', max: 5 },
+        { name: '智能科技', max: 5 },
+        { name: '价格与补贴', max: 5 },
+        { name: '续航与充电', max: 5 },
+        { name: '驾驶体验', max: 5 },
+        { name: '品牌影响力', max: 5 },
+        { name: '空间舒适度', max: 5 }
+      ],
+      radius: '65%',
+      splitNumber: 4
+    },
+    series: [
+      {
+        name: '产品特征对比',
+        type: 'radar',
+        data: [
+          {
+            value: [5, 5, 4, 3, 4, 4, 4, 3],
+            name: '小米SU7 Ultra',
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: {
+              width: 2,
+              color: '#ee6666'
+            },
+            areaStyle: {
+              color: 'rgba(238, 102, 102, 0.2)'
+            }
+          },
+          {
+            value: [4, 4, 4, 4, 4, 4, 4, 3],
+            name: '小米',
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: {
+              width: 2,
+              color: '#5470c6'
+            },
+            areaStyle: {
+              color: 'rgba(84, 112, 198, 0.2)'
+            }
+          },
+          {
+            value: [5, 4, 3, 2, 2, 5, 5, 3],
+            name: '宝马M3',
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: {
+              width: 2,
+              color: '#91cc75'
+            },
+            areaStyle: {
+              color: 'rgba(145, 204, 117, 0.2)'
+            }
+          },
+          {
+            value: [4, 3, 3, 4, 4, 3, 4, 4],
+            name: '比亚迪',
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: {
+              width: 2,
+              color: '#fac858'
+            },
+            areaStyle: {
+              color: 'rgba(250, 200, 88, 0.2)'
+            }
+          },
+          {
+            value: [4, 3, 5, 3, 4, 3, 3, 4],
+            name: '小鹏',
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: {
+              width: 2,
+              color: '#73c0de'
+            },
+            areaStyle: {
+              color: 'rgba(115, 192, 222, 0.2)'
+            }
+          }
+        ]
+      }
+    ]
+  };
+  
+  myChart.setOption(option);
+  
+  window.addEventListener('resize', function() {
+    myChart.resize();
+  });
+});
+</script><div class="brand-keyword-analysis">
+  <div class="module-header">
+    <h2>品牌关键词分析</h2>
+    <div class="header-actions">
+      <button class="switch-brand">🔄 切换品牌</button>
+      <select class="sentiment-filter">
+        <option>🔍 情感筛选</option>
+        <option value="all">全部</option>
+        <option value="positive">正面</option>
+        <option value="negative">负面</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="insights-section">
+    <div class="core-insight">
+      <h3>核心洞察</h3>
+      <p>【小米SU7 Ultra】相关讨论中，「纽北战神」是最热门的正面关键词，权重值达到10。</p>
+      <p>负面反馈中，「空间较小」是最突出的关键词，权重值为7。</p>
+    </div>
+  </div>
+
+  <div class="wordcloud-section">
+    <div class="wordcloud-container">
+      <div id="positive-wordcloud" class="wordcloud-chart"></div>
+      <div id="negative-wordcloud" class="wordcloud-chart"></div>
+    </div>
+  </div>
+
+  <div class="top-keywords-section">
+    <h3>热门关键词TOP10</h3>
+    <table class="keywords-table">
+      <thead>
+        <tr>
+          <th>关键词</th>
+          <th>提及数</th>
+          <th>情感倾向</th>
+          <th>热度值</th>
+          <th>趋势</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>纽北战神</td>
+          <td>高</td>
+          <td class="positive">正面</td>
+          <td>17722</td>
+          <td class="trend-up">↑55%</td>
+        </tr>
+        <tr>
+          <td>零百1.98秒</td>
+          <td>高</td>
+          <td class="positive">正面</td>
+          <td>15500</td>
+          <td class="trend-up">↑48%</td>
+        </tr>
+        <tr>
+          <td>碳纤维套件</td>
+          <td>中</td>
+          <td class="positive">正面</td>
+          <td>13200</td>
+          <td class="trend-up">↑42%</td>
+        </tr>
+        <tr>
+          <td>三电机1548马力</td>
+          <td>中</td>
+          <td class="positive">正面</td>
+          <td>12800</td>
+          <td class="trend-up">↑40%</td>
+        </tr>
+        <tr>
+          <td>太空银配色</td>
+          <td>中</td>
+          <td class="positive">正面</td>
+          <td>11500</td>
+          <td class="trend-up">↑38%</td>
+        </tr>
+        <tr>
+          <td>空间较小</td>
+          <td>中</td>
+          <td class="negative">负面</td>
+          <td>9800</td>
+          <td class="trend-down">↓32%</td>
+        </tr>
+        <tr>
+          <td>驾驶累</td>
+          <td>中</td>
+          <td class="negative">负面</td>
+          <td>9200</td>
+          <td class="trend-down">↓28%</td>
+        </tr>
+        <tr>
+          <td>舒适度低</td>
+          <td>中</td>
+          <td class="negative">负面</td>
+          <td>8900</td>
+          <td class="trend-down">↓26%</td>
+        </tr>
+        <tr>
+          <td>智驾未体验</td>
+          <td>低</td>
+          <td class="negative">负面</td>
+          <td>7500</td>
+          <td class="trend-down">↓22%</td>
+        </tr>
+        <tr>
+          <td>价格高</td>
+          <td>低</td>
+          <td class="negative">负面</td>
+          <td>7200</td>
+          <td class="trend-down">↓20%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="user-quotes-section">
+    <h3>关键词关联原声</h3>
+    <div class="quote-card">
+      <p>关于"纽北战神"的讨论:</p>
+      <blockquote>
+        "小米SU7 Ultra正式发布，52.99万起，对上燃油时代的操控王者宝马M3，谁更值得选？1️⃣外观 小米SU7 Ultra：新的太空银配色很高级，低趴的姿态，搭配多处碳纤维套件和夸张的固定大尾翼，很难想象这是一台可以上路的"赛车"，再选配上碳纤维镂空机盖，化身纽北战神"战绩可查""
+      </blockquote>
+      <div class="quote-meta">
+        <span>来自小红书</span>
+        <span>👍 5.5k · 💬 177条回复</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+<script>
+  // 正面词云配置
+  const positiveChart = echarts.init(document.getElementById('positive-wordcloud'));
+  const positiveOption = {
+    series: [{
+      type: 'wordCloud',
+      shape: 'circle',
+      left: 'center',
+      top: 'center',
+      width: '90%',
+      height: '90%',
+      right: null,
+      bottom: null,
+      sizeRange: [12, 60],
+      rotationRange: [-45, 45],
+      rotationStep: 15,
+      gridSize: 8,
+      drawOutOfBound: false,
+      textStyle: {
+        fontFamily: 'sans-serif',
+        fontWeight: 'bold',
+        color: function () {
+          return '#1890ff';
+        }
+      },
+      emphasis: {
+        focus: 'self',
+        textStyle: {
+          shadowBlur: 10,
+          shadowColor: '#333'
+        }
+      },
+      data: [
+        { name: '纽北战神', value: 10 },
+        { name: '零百1.98秒', value: 10 },
+        { name: '碳纤维套件', value: 9 },
+        { name: '三电机1548马力', value: 9 },
+        { name: '太空银配色', value: 8 },
+        { name: '固定大尾翼', value: 8 },
+        { name: '空气动力学套件', value: 8 },
+        { name: '科技感', value: 8 },
+        { name: '颜值', value: 8 },
+        { name: '低趴姿态', value: 7 }
+      ]
+    }]
+  };
+  positiveChart.setOption(positiveOption);
+
+  // 负面词云配置
+  const negativeChart = echarts.init(document.getElementById('negative-wordcloud'));
+  const negativeOption = {
+    series: [{
+      type: 'wordCloud',
+      shape: 'circle',
+      left: 'center',
+      top: 'center',
+      width: '90%',
+      height: '90%',
+      right: null,
+      bottom: null,
+      sizeRange: [12, 60],
+      rotationRange: [-45, 45],
+      rotationStep: 15,
+      gridSize: 8,
+      drawOutOfBound: false,
+      textStyle: {
+        fontFamily: 'sans-serif',
+        fontWeight: 'bold',
+        color: function () {
+          return '#f5222d';
+        }
+      },
+      emphasis: {
+        focus: 'self',
+        textStyle: {
+          shadowBlur: 10,
+          shadowColor: '#333'
+        }
+      },
+      data: [
+        { name: '空间较小', value: 7 },
+        { name: '驾驶累', value: 6 },
+        { name: '舒适度低', value: 6 },
+        { name: '智驾未体验', value: 5 },
+        { name: '价格高', value: 5 },
+        { name: '转向精准但累', value: 5 },
+        { name: '政策少', value: 4 },
+        { name: '坐姿低', value: 4 },
+        { name: '动力未达预期', value: 4 },
+        { name: '设计模仿', value: 4 }
+      ]
+    }]
+  };
+  negativeChart.setOption(negativeOption);
+
+  // 窗口大小变化时重新调整图表
+  window.addEventListener('resize', function() {
+    positiveChart.resize();
+    negativeChart.resize();
+  });
+</script>
+
+<style>
+  .brand-keyword-analysis {
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+  }
+
+  .module-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .switch-brand, .sentiment-filter {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .insights-section {
+    margin-bottom: 30px;
+  }
+
+  .core-insight {
+    background-color: #f5f7fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #1890ff;
+  }
+
+  .core-insight h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .core-insight p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+  }
+
+  .wordcloud-section {
+    margin-bottom: 30px;
+  }
+
+  .wordcloud-container {
+    display: flex;
+    gap: 20px;
+    height: 400px;
+  }
+
+  .wordcloud-chart {
+    flex: 1;
+    height: 100%;
+    border: 1px solid #eee;
+    border-radius: 6px;
+  }
+
+  .top-keywords-section {
+    margin-bottom: 30px;
+  }
+
+  .top-keywords-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .keywords-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .keywords-table th, .keywords-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  .keywords-table th {
+    background-color: #f5f7fa;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .keywords-table tr:hover {
+    background-color: #f9f9f9;
+  }
+
+  .positive {
+    color: #1890ff;
+    font-weight: 500;
+  }
+
+  .negative {
+    color: #f5222d;
+    font-weight: 500;
+  }
+
+  .trend-up {
+    color: #52c41a;
+  }
+
+  .trend-down {
+    color: #f5222d;
+  }
+
+  .user-quotes-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .quote-card {
+    background-color: #f5f7fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #1890ff;
+  }
+
+  .quote-card p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+
+  blockquote {
+    margin: 0 0 10px 0;
+    padding: 10px 15px;
+    background-color: #fff;
+    border-left: 3px solid #1890ff;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  .quote-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #999;
+  }
+</style><div class="geo-distribution-module">
+  <div class="module-header">
+    <h2>用户地理分布分析</h2>
+    <button class="view-switch">🔄 切换视图</button>
+  </div>
+  
+  <div class="core-insight">
+    <h3>核心洞察</h3>
+    <p>数据显示，<span class="highlight">重庆</span>地区的用户互动热度最高，热度值达到<span class="highlight">30028.0</span>，占总热度的<span class="highlight">24.4%</span>。</p>
+  </div>
+  
+  <div class="chart-container">
+    <div id="heatMapChart" style="width: 100%; height: 300px;"></div>
+  </div>
+  
+  <div class="region-detail">
+    <h3>地区分布明细</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>地区</th>
+          <th>热度值</th>
+          <th>热度占比</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>重庆</td>
+          <td>30028.0</td>
+          <td>24.4%</td>
+        </tr>
+        <tr>
+          <td>广东</td>
+          <td>21266.0</td>
+          <td>17.3%</td>
+        </tr>
+        <tr>
+          <td>上海</td>
+          <td>11680.0</td>
+          <td>9.5%</td>
+        </tr>
+        <tr>
+          <td>北京</td>
+          <td>9640.0</td>
+          <td>7.8%</td>
+        </tr>
+        <tr>
+          <td>江苏</td>
+          <td>7761.0</td>
+          <td>6.3%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="brand-distribution">
+    <h3>品牌地区分布</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>品牌</th>
+          <th>热门地区1</th>
+          <th>热门地区2</th>
+          <th>热门地区3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>品牌A</td>
+          <td>重庆 24.4%</td>
+          <td>广东 17.3%</td>
+          <td>上海 9.5%</td>
+        </tr>
+        <tr>
+          <td>品牌B</td>
+          <td>重庆 24.4%</td>
+          <td>广东 17.3%</td>
+          <td>北京 7.8%</td>
+        </tr>
+        <tr>
+          <td>品牌C</td>
+          <td>广东 17.3%</td>
+          <td>重庆 24.4%</td>
+          <td>江苏 6.3%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="user-voice">
+    <h3>用户原声</h3>
+    <div class="quote-card">
+      <p>"重庆的美食真的太棒了，火锅、小面都让人回味无穷！" - 来自微博</p>
+      <div class="quote-meta">
+        <span class="likes">👍 12.3k</span>
+        <a href="#" class="original-link">🔗 点击查看原文</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.geo-distribution-module {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.module-header h2 {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+}
+
+.view-switch {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.core-insight {
+  margin-bottom: 25px;
+}
+
+.core-insight h3 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.core-insight p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.highlight {
+  color: #1890ff;
+  font-weight: bold;
+}
+
+.chart-container {
+  margin: 25px 0;
+}
+
+.region-detail, .brand-distribution, .user-voice {
+  margin: 25px 0;
+}
+
+h3 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 10px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  background-color: #f7f7f7;
+  color: #666;
+}
+
+.quote-card {
+  background: #f9f9f9;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.quote-card p {
+  margin: 0 0 10px 0;
+  font-style: italic;
+  color: #333;
+}
+
+.quote-meta {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #999;
+}
+
+.likes {
+  margin-right: 15px;
+}
+
+.original-link {
+  color: #1890ff;
+  text-decoration: none;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+// 初始化图表
+var chartDom = document.getElementById('heatMapChart');
+var myChart = echarts.init(chartDom);
+
+// 计算总热度和百分比
+var totalHeat = 0;
+var chartData = [
+  {location: '重庆', heat: 30028.0},
+  {location: '广东', heat: 21266.0},
+  {location: '上海', heat: 11680.0},
+  {location: '北京', heat: 9640.0},
+  {location: '江苏', heat: 7761.0},
+  {location: '四川', heat: 7449.0},
+  {location: '福建', heat: 6158.0},
+  {location: '山东', heat: 5941.0},
+  {location: '浙江', heat: 4127.0},
+  {location: '河南', heat: 3790.0},
+  {location: '广西', heat: 2052.0},
+  {location: '河北', heat: 1792.0},
+  {location: '云南', heat: 1459.0},
+  {location: '安徽', heat: 1031.0},
+  {location: '湖北', heat: 571.0}
+];
+
+chartData.forEach(function(item) {
+  totalHeat += item.heat;
+});
+
+// 准备图表数据
+var locations = chartData.map(function(item) {
+  return item.location;
+});
+
+var heats = chartData.map(function(item) {
+  return item.heat;
+});
+
+var percentages = chartData.map(function(item) {
+  return ((item.heat / totalHeat) * 100).toFixed(1) + '%';
+});
+
+var option = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    },
+    formatter: function(params) {
+      var data = params[0];
+      return data.name + '<br/>' +
+             '热度值: ' + data.value + '<br/>' +
+             '占比: ' + ((data.value / totalHeat) * 100).toFixed(1) + '%';
+    }
+  },
+  xAxis: {
+    type: 'category',
+    data: locations,
+    axisLabel: {
+      rotate: 45,
+      interval: 0
+    }
+  },
+  yAxis: {
+    type: 'value',
+    name: '热度值'
+  },
+  series: [{
+    data: heats,
+    type: 'bar',
+    itemStyle: {
+      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+        { offset: 0, color: '#83bff6' },
+        { offset: 0.5, color: '#188df0' },
+        { offset: 1, color: '#1880ff' }
+      ])
+    },
+    emphasis: {
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: '#2378f7' },
+          { offset: 0.7, color: '#2378f7' },
+          { offset: 1, color: '#83bff6' }
+        ])
+      }
+    },
+    barWidth: '60%'
+  }]
+};
+
+myChart.setOption(option);
+
+// 响应式调整
+window.addEventListener('resize', function() {
+  myChart.resize();
+});
+</script><div class="brand-optimization-container">
+  <div class="header">
+    <h2>品牌优化建议 <span class="important-tag">🌟 重要</span></h2>
+    <p>基于数据分析，我们建议优化以下关键领域：</p>
+  </div>
+
+  <div class="recommendation-card" style="border-left: 4px solid #4CAF50;">
+    <div class="card-header">
+      <span class="icon">📈</span>
+      <h3>品牌声量与情感维护</h3>
+    </div>
+    <div class="card-content">
+      <ul>
+        <li>继续保持小米SU7 Ultra的高热度讨论策略，利用其9.23%的声量占比优势</li>
+        <li>强化100%正面评价的品牌形象，将"纽北战神"、"零百1.98秒"等高权重关键词融入营销内容</li>
+        <li>针对潜在负面反馈如"空间较小"、"驾驶累"等提前准备应对方案</li>
+      </ul>
+      <div class="data-support">
+        <p><strong>📊 数据支撑:</strong> 品牌讨论热度占比9.23%领先行业；100%正面评价；"纽北战神"关键词权重10</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="recommendation-card" style="border-left: 4px solid #2196F3;">
+    <div class="card-header">
+      <span class="icon">🔄</span>
+      <h3>竞争对手差异化策略</h3>
+    </div>
+    <div class="card-content">
+      <ul>
+        <li>针对小鹏P7+的竞争，突出小米SU7 Ultra在性能(零百1.98秒)和品牌知名度上的优势</li>
+        <li>强化外观设计和科技感(两项5分满分)的差异化卖点，与竞品形成鲜明对比</li>
+        <li>关注2个摇摆用户群体的需求，提供针对性营销内容</li>
+      </ul>
+      <div class="data-support">
+        <p><strong>📊 数据支撑:</strong> 与小鹏P7+直接竞争；性能/外观设计满分；2个用户摇摆状态</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="recommendation-card" style="border-left: 4px solid #FF9800;">
+    <div class="card-header">
+      <span class="icon">🛡️</span>
+      <h3>区域化营销与产品改进</h3>
+    </div>
+    <div class="card-content">
+      <ul>
+        <li>重点布局重庆(热度30028)、广东(热度21266)等高热度地区</li>
+        <li>针对"空间较小"、"舒适度低"等负面反馈优化产品设计</li>
+        <li>借鉴"龙岩第一台"案例(热度14904)开展区域性营销活动</li>
+      </ul>
+      <div class="data-support">
+        <p><strong>📊 数据支撑:</strong> 重庆地区热度30028；"空间较小"负面权重7；区域营销案例热度14904</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="recommendation-card" style="border-left: 4px solid #9C27B0;">
+    <div class="card-header">
+      <span class="icon">🚀</span>
+      <h3>产品特征强化</h3>
+    </div>
+    <div class="card-content">
+      <ul>
+        <li>持续突出外观设计和性能表现两大满分(5分)特征</li>
+        <li>加强智能科技(4分)方面的投入，缩小与小鹏(5分)的差距</li>
+        <li>优化价格与补贴(3分)策略，提升竞争力</li>
+      </ul>
+      <div class="data-support">
+        <p><strong>📊 数据支撑:</strong> 外观/性能5分满分；智能科技4分；价格与补贴3分</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.brand-optimization-container {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.header h2 {
+  margin: 0;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.important-tag {
+  background-color: #FFEB3B;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #333;
+}
+
+.recommendation-card {
+  background: white;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+.card-content ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.card-content li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.data-support {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+.data-support strong {
+  color: #333;
+}
+</style>
+                    <div class="report-footer">
+                        <p>© 2025 Cotex AI | 数据分析报告</p>
+                    </div>
+                </div>
+                
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const chartContainers = document.querySelectorAll('[data-chart]');
+                    chartContainers.forEach(container => {
+                        const chartId = container.getAttribute('id');
+                        const chartConfig = container.getAttribute('data-chart');
+                        if (chartConfig && chartId) {
+                            try {
+                                const config = JSON.parse(chartConfig);
+                                const chart = echarts.init(document.getElementById(chartId));
+                                chart.setOption(config);
+                                window.addEventListener('resize', function() {
+                                    chart.resize();
+                                });
+                            } catch (e) {
+                                console.error('初始化图表出错:', e);
+                            }
+                        }
+                    });
+                });
+                </script>
+            </body>
+            </html>
+            

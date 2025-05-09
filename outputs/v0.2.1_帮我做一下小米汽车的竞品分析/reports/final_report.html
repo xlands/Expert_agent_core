@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社交媒体分析报告</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+        .summary-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .summary-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .insight-card {
+            background-color: #f9f9f9;
+            border-left: 4px solid #FF6700;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .insight-card h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .insight-card p {
+            color: #666;
+        }
+        .report-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .report-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .data-visualization {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .data-visualization img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .quotes-section {
+            margin-top: 20px;
+        }
+        .quote-card {
+            background-color: #f0f8ff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #00a0e9;
+        }
+        .quote-content {
+            font-style: italic;
+            color: #555;
+        }
+        .quote-link {
+            color: #00a0e9;
+            text-decoration: none;
+            font-size: 12px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        .quote-link:hover {
+            text-decoration: underline;
+        }
+        .quote-metadata {
+            font-weight: bold;
+            color: #333;
+            margin-top: 5px;
+            text-align: right;
+            font-size: 12px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .data-table th, .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .data-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .brand-bar {
+            height: 30px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        /* 品牌通用色彩样式 */
+        .brand-primary {
+            background-color: #FF6700;
+        }
+        .brand-secondary {
+            background-color: #1E50A2;
+        }
+        .brand-tertiary {
+            background-color: #00A0E9;
+        }
+        .brand-quaternary {
+            background-color: #CC0000;
+        }
+        .brand-quinary {
+            background-color: #00B050;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>社交媒体分析报告</h1>
+            <p>生成日期: 2025年04月02日</p>
+        </div>
+
+        <div class="summary-section">
+            <h2>核心发现</h2>
+
+            <div class="insight-card">
+                <h3>品牌声量分析</h3>
+                <p>在所有评论和内容中，小米品牌讨论热度最高，占比达9.97%，领先第二名品牌 4.6%</p>
+            </div>
+
+            <div class="insight-card">
+                <h3>竞争对手分析</h3>
+                <p>小米的主要竞争对手是特斯拉，两者在价格, 颜值等方面存在直接竞争</p>
+            </div>
+
+            <div class="insight-card">
+                <h3>品牌情感分析</h3>
+                <p>小米品牌获得了50%的正面评价，主要围绕产品性能和用户体验</p>
+            </div>
+
+            <div class="insight-card">
+                <h3>关键词分析</h3>
+                <p>小米品牌相关讨论中，「颜值」是最热门的关键词，情感倾向为正面</p>
+            </div>
+
+            <div class="insight-card">
+                <h3>产品特征分析</h3>
+                <p>用户最关注的产品特征是「外观设计」，其中特斯拉品牌在该维度表现最佳</p>
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>品牌声量分析</h2>
+            <p>在所有评论和内容中，小米品牌讨论热度最高，占比达9.97%，领先第二名品牌 4.6%</p>
+
+            <div class="data-visualization">
+                <h3>品牌声量分布</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+                        <tr>
+                            <th>品牌</th>
+                            <th>占比</th>
+                            <th>比例图</th>
+                        </tr>
+
+                            <tr>
+                                <td>小米</td>
+                                <td>10.0%</td>
+                                <td><div class="brand-quaternary brand-bar" style="width: 100.0%">10.0%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>比亚迪</td>
+                                <td>5.3%</td>
+                                <td><div class="brand-quaternary brand-bar" style="width: 53.46038114343029%">5.3%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>理想</td>
+                                <td>5.1%</td>
+                                <td><div class="brand-primary brand-bar" style="width: 51.35406218655968%">5.1%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>小鹏</td>
+                                <td>5.0%</td>
+                                <td><div class="brand-tertiary brand-bar" style="width: 50.150451354062184%">5.0%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>特斯拉</td>
+                                <td>4.1%</td>
+                                <td><div class="brand-tertiary brand-bar" style="width: 41.524573721163485%">4.1%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>问界</td>
+                                <td>2.9%</td>
+                                <td><div class="brand-quaternary brand-bar" style="width: 28.686058174523566%">2.9%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>蔚来</td>
+                                <td>2.9%</td>
+                                <td><div class="brand-primary brand-bar" style="width: 28.686058174523566%">2.9%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>极氪</td>
+                                <td>2.6%</td>
+                                <td><div class="brand-tertiary brand-bar" style="width: 26.278836509528585%">2.6%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>零跑</td>
+                                <td>2.2%</td>
+                                <td><div class="brand-tertiary brand-bar" style="width: 22.066198595787363%">2.2%</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>小米SU7</td>
+                                <td>1.6%</td>
+                                <td><div class="brand-quinary brand-bar" style="width: 16.148445336008024%">1.6%</div></td>
+                            </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"看完北京车展觉得国内的车企太卷太难了，要不各大佬们试试个人飞行器这个赛道，做出来绝对遥遥领先市值翻倍
+#北京车展 #汽车 #出行好物 #飞行器 #车展 #原创 #AIGC"</div>
+
+                    <div class="quote-metadata">小米 | 热度: 114782</div>
+
+                    <a href="https://www.xiaohongshu.com/search_result/6630c6d8000000001e034f34?xsec_token=ABBF5ibguyQtWDHdz6bBrFauEvep3_kf8DnIrETJm8DC4=&xsec_source=pc_search" target="_blank" class="quote-link">新能源车企都别卷了，要不试试个人飞行器吧</a>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"这样一来赋予了BYD新名字——不要掉！"</div>
+
+                    <div class="quote-metadata">小米 | 热度: 114782</div>
+
+                    <a href="https://www.xiaohongshu.com/search_result/6630c6d8000000001e034f34?xsec_token=ABBF5ibguyQtWDHdz6bBrFauEvep3_kf8DnIrETJm8DC4=&xsec_source=pc_search" target="_blank" class="quote-link">新能源车企都别卷了，要不试试个人飞行器吧</a>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"一想到一百年两百年后的人可能就能用上这玩意儿了 而我是赶不上了 有点难过"</div>
+
+                    <div class="quote-metadata">小米 | 热度: 114782</div>
+
+                    <a href="https://www.xiaohongshu.com/search_result/6630c6d8000000001e034f34?xsec_token=ABBF5ibguyQtWDHdz6bBrFauEvep3_kf8DnIrETJm8DC4=&xsec_source=pc_search" target="_blank" class="quote-link">新能源车企都别卷了，要不试试个人飞行器吧</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>品牌情感分析</h2>
+            <p>小米品牌获得了50%的正面评价，主要围绕产品性能和用户体验</p>
+
+            <div class="data-visualization">
+                <h3>品牌情感分布</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+                        <tr>
+                            <th>品牌</th>
+                            <th>正面评价</th>
+                            <th>中性评价</th>
+                            <th>负面评价</th>
+                            <th>情感分布</th>
+                        </tr>
+
+                            <tr>
+                                <td>小米</td>
+                                <td>50%</td>
+                                <td>30%</td>
+                                <td>20%</td>
+                                <td>
+                                    <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 50.0%; background-color: #4CAF50;" title="正面: 50%"></div>
+                                        <div style="width: 30.0%; background-color: #2196F3;" title="中性: 30%"></div>
+                                        <div style="width: 20.0%; background-color: #F44336;" title="负面: 20%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>比亚迪</td>
+                                <td>40%</td>
+                                <td>40%</td>
+                                <td>20%</td>
+                                <td>
+                                    <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 40.0%; background-color: #4CAF50;" title="正面: 40%"></div>
+                                        <div style="width: 40.0%; background-color: #2196F3;" title="中性: 40%"></div>
+                                        <div style="width: 20.0%; background-color: #F44336;" title="负面: 20%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>理想</td>
+                                <td>60%</td>
+                                <td>30%</td>
+                                <td>10%</td>
+                                <td>
+                                    <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 60.0%; background-color: #4CAF50;" title="正面: 60%"></div>
+                                        <div style="width: 30.0%; background-color: #2196F3;" title="中性: 30%"></div>
+                                        <div style="width: 10.0%; background-color: #F44336;" title="负面: 10%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>小鹏</td>
+                                <td>50%</td>
+                                <td>30%</td>
+                                <td>20%</td>
+                                <td>
+                                    <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 50.0%; background-color: #4CAF50;" title="正面: 50%"></div>
+                                        <div style="width: 30.0%; background-color: #2196F3;" title="中性: 30%"></div>
+                                        <div style="width: 20.0%; background-color: #F44336;" title="负面: 20%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>特斯拉</td>
+                                <td>70%</td>
+                                <td>20%</td>
+                                <td>10%</td>
+                                <td>
+                                    <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 70.0%; background-color: #4CAF50;" title="正面: 70%"></div>
+                                        <div style="width: 20.0%; background-color: #2196F3;" title="中性: 20%"></div>
+                                        <div style="width: 10.0%; background-color: #F44336;" title="负面: 10%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"小米SU7 Ultra：零百1.98秒！三电机组成1548马力"</div>
+
+                    <div class="quote-metadata">小米</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"小米汽车的这个设计太赞了！"</div>
+
+                    <div class="quote-metadata">小米</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"看完北京车展觉得国内的车企太卷太难了，要不各大佬们试试个人飞行器这个赛道，做出来绝对遥遥领先市值翻倍
+#北京车展 #汽车 #出行好物 #飞行器 #车展 #原创 #AIGC"</div>
+
+                    <div class="quote-metadata">小米 | 热度: 114782</div>
+
+                    <a href="https://www.xiaohongshu.com/search_result/6630c6d8000000001e034f34?xsec_token=ABBF5ibguyQtWDHdz6bBrFauEvep3_kf8DnIrETJm8DC4=&xsec_source=pc_search" target="_blank" class="quote-link">新能源车企都别卷了，要不试试个人飞行器吧</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>竞争对手分析</h2>
+            <p>小米的主要竞争对手是特斯拉，两者在价格, 颜值等方面存在直接竞争</p>
+
+            <div class="data-visualization">
+                <h3>竞争关系网络</h3>
+                <div style="text-align: center;">
+                    <img src="competition_network.png" alt="竞争关系网络图">
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"评论中提到特斯拉的驾驶感和品牌实力强"</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"用户在选择时纠结于小米SU7和特斯拉Model 3"</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"用户最终选择特斯拉而非小米"</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>产品特征分析</h2>
+            <p>用户最关注的产品特征是「外观设计」，其中特斯拉品牌在该维度表现最佳</p>
+
+            <div class="data-visualization">
+                <h3>产品特征雷达图</h3>
+                <div style="text-align: center;">
+                    <img src="feature_radar.png" alt="产品特征雷达图">
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"小米SU7 Ultra：新的太空银配色很高级，低趴的姿态，搭配多处碳纤维套件和夸张的固定大尾翼，很难想象这是一台可以上路的“赛车”"</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"高合是我觉得最可惜的一个品牌，设计很有科技感很炫酷"</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"比亚迪OCEAN-M新能源两厢小钢炮，今年夏天上市，15-20万。带劲不？"</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>关键词分析</h2>
+            <p>小米品牌相关讨论中，「颜值」是最热门的关键词，情感倾向为正面</p>
+
+            <div class="data-visualization">
+                <h3>品牌关键词词云</h3>
+                <div style="text-align: center;">
+                    <img src="word_cloud.png" alt="品牌关键词词云">
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"小米SU7 Ultra：新的太空银配色很高级，低趴的姿态，搭配多处碳纤维套件和夸张的固定大尾翼"</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"小米SU7标准版：外观蓝色、灰色、绿色免费"</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"三台都已试驾，名下无报废无置换，首辆车
+首付预算12-14w左右
+	
+1️⃣ 特斯拉model 3
+后驱标续版，车价235500，续航634km
+外观灰色免费，其他+8000
+内饰黑色免费，白色＋8000
+限时保险补贴8000，南京提车地补4000，五年免息
+地补是提车后向政府申请，打到卡里
+首付7.99w起，月供最高(23.55-7.99)/60=2593元
+✅ 优势：驾驶感好，集成度高，品牌实"</div>
+
+                    <a href="https://www.xiaohongshu.com/search_result/67aabd6c000000002900f44b?xsec_token=ABZwADadCTyH9qkKNzAvBIPgpCghwkiJzOXm7aroh_Kgg=&xsec_source=pc_search" target="_blank" class="quote-link">查看原文</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>行业热点分析</h2>
+            <p>当前行业最热门的讨论主题是「新能源车企都别卷了，要不试试个人飞行器吧」，热度值达到114782，主要涉及高合, 保时捷, BYD等品牌</p>
+
+            <div class="data-visualization">
+                <h3>热门讨论话题</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+                        <tr>
+                            <th>话题</th>
+                            <th>热度值</th>
+                            <th>热度图</th>
+                        </tr>
+
+                            <tr>
+                                <td>新能源车企都别卷了，要不试试个人飞行器吧</td>
+                                <td>114782</td>
+                                <td><div class="brand-bar" style="width: 100.0%; background-color: #FF9800;">114782</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>宝马：服了你了</td>
+                                <td>29422</td>
+                                <td><div class="brand-bar" style="width: 25.6329389625551%; background-color: #FF9800;">29422</div></td>
+                            </tr>
+
+                            <tr>
+                                <td>龙岩第一台？挑战国产电车里的天花板</td>
+                                <td>29108</td>
+                                <td><div class="brand-bar" style="width: 25.359376905786625%; background-color: #FF9800;">29108</div></td>
+                            </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"看完北京车展觉得国内的车企太卷太难了，要不各大佬们试试个人飞行器这个赛道，做出来绝对遥遥领先市值翻倍
+#北京车展 #汽车 #出行好物 #飞行器 #车展 #原创 #AIGC"</div>
+
+                    <div class="quote-metadata">热度: 114782</div>
+
+                    <a href="https://www.xiaohongshu.com/search_result/6630c6d8000000001e034f34?xsec_token=ABBF5ibguyQtWDHdz6bBrFauEvep3_kf8DnIrETJm8DC4=&xsec_source=pc_search" target="_blank" class="quote-link">新能源车企都别卷了，要不试试个人飞行器吧</a>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"小米SU7 Ultra正式发布，52.99万起，对上燃油时代的操控王者宝马M3，谁更值得选？
+1️⃣外观
+小米SU7 Ultra：新的太空银配色很高级，低趴的姿态，搭配多处碳纤维套件和夸张的固定大尾翼，很难想象这是一台可以上路的“赛车”，再选配上碳纤维镂空机盖，化身纽北战神“战绩可查”
+宝马M3：宽体设计，肌肉感十足，双肾格栅+运动包围，一看就不好惹
+	
+2️⃣性能
+小米SU7 Ultra：零百1"</div>
+
+                    <div class="quote-metadata">热度: 29422</div>
+
+                    <a href="https://www.xiaohongshu.com/search_result/67c0746900000000060285ce?xsec_token=AB73oSrPk8wTSxwNb9nuaHZshHybMXI5rBY_yaQSyDYxk=&xsec_source=pc_search" target="_blank" class="quote-link">宝马：服了你了</a>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"听说厂家叫做某合汽车，不知道现在还在不？这台车是第一台挂龙岩牌的，外形实在太帅了，太拉风了。#新能源"</div>
+
+                    <div class="quote-metadata">热度: 29108</div>
+
+                    <a href="https://www.xiaohongshu.com/search_result/672db0b8000000001a034db5?xsec_token=AB6NrG8tDaiZDTsB4loi3tiiL_HGGR2KXrdMtvCQNIiMc=&xsec_source=pc_search" target="_blank" class="quote-link">龙岩第一台？挑战国产电车里的天花板</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Echo Search Platform. 本报告由AI智能分析生成。</p>
+        </div>
+    </div>
+</body>
+</html>

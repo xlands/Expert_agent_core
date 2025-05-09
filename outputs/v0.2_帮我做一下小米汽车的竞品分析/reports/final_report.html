@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米汽车竞品分析报告</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+        .summary-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .summary-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .insight-card {
+            background-color: #f9f9f9;
+            border-left: 4px solid #FF6700;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .insight-card h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .insight-card p {
+            color: #666;
+        }
+        .report-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .report-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .data-visualization {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .data-visualization img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .quotes-section {
+            margin-top: 20px;
+        }
+        .quote-card {
+            background-color: #f0f8ff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #00a0e9;
+        }
+        .quote-content {
+            font-style: italic;
+            color: #555;
+        }
+        .quote-brand {
+            font-weight: bold;
+            color: #333;
+            margin-top: 5px;
+            text-align: right;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .data-table th, .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .data-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .data-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .brand-bar {
+            height: 30px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        /* 自定义品牌颜色 */
+        .xiaomi { background-color: #FF6700; }
+        .xiaopeng { background-color: #1E50A2; }
+        .tesla { background-color: #CC0000; }
+        .zeekr { background-color: #00A0E9; }
+        .byd { background-color: #FF0000; }
+        .li-auto { background-color: #00B050; }
+        .avatar { background-color: #FFD700; color: #333; }
+        .wenjie { background-color: #4169E1; }
+        .nio { background-color: #9ACD32; }
+        .zhiji { background-color: #800080; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>小米汽车竞品分析报告</h1>
+            <p>生成日期: 2025年03月31日</p>
+        </div>
+
+        <div class="summary-section">
+            <h2>核心发现</h2>
+
+            <div class="insight-card">
+                <h3>品牌声量分析</h3>
+                <p>在所有评论和内容中，小米品牌提及频次最高，共被提及99次</p>
+            </div>
+
+            <div class="insight-card">
+                <h3>品牌情感分析</h3>
+                <p>小米品牌的正面评价比例为70.0%，在用户讨论中体现出良好口碑</p>
+            </div>
+
+            <div class="insight-card">
+                <h3>竞品分析</h3>
+                <p>小米的主要竞争对手是特斯拉，竞争类型为直接竞争</p>
+            </div>
+
+            <div class="insight-card">
+                <h3>产品特征分析</h3>
+                <p>用户最关心的5个产品维度是：外观设计, 续航能力, 智能驾驶, 价格, 空间，其中小米在外观设计方面表现最突出</p>
+            </div>
+
+            <div class="insight-card">
+                <h3>关键词分析</h3>
+                <p>小米品牌的热门讨论关键词是「颜值」</p>
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>品牌声量分析</h2>
+            <p>在所有评论和内容中，小米品牌提及频次最高，共被提及99次</p>
+
+            <div class="data-visualization">
+                <h3>品牌声量分布</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+                        <tr>
+                            <th>品牌</th>
+                            <th>声量</th>
+                            <th>比例图</th>
+                        </tr>
+
+                        <tr>
+                            <td>小米</td>
+                            <td>99</td>
+                            <td><div class="xiaomi brand-bar" style="width: 100.0%">99</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>小鹏</td>
+                            <td>65</td>
+                            <td><div class="xiaopeng brand-bar" style="width: 65.65656565656566%">65</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>特斯拉</td>
+                            <td>45</td>
+                            <td><div class="tesla brand-bar" style="width: 45.45454545454545%">45</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>极氪</td>
+                            <td>41</td>
+                            <td><div class="zeekr brand-bar" style="width: 41.41414141414141%">41</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>比亚迪</td>
+                            <td>37</td>
+                            <td><div class="byd brand-bar" style="width: 37.37373737373738%">37</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>理想</td>
+                            <td>31</td>
+                            <td><div class="li-auto brand-bar" style="width: 31.313131313131315%">31</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>阿维塔</td>
+                            <td>18</td>
+                            <td><div class="avatar brand-bar" style="width: 18.181818181818183%">18</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>问界</td>
+                            <td>16</td>
+                            <td><div class="wenjie brand-bar" style="width: 16.161616161616163%">16</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>蔚来</td>
+                            <td>15</td>
+                            <td><div class="nio brand-bar" style="width: 15.151515151515152%">15</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>智己</td>
+                            <td>15</td>
+                            <td><div class="zhiji brand-bar" style="width: 15.151515151515152%">15</div></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"阿维塔内饰设计最超前，其它都很土"</div>
+
+                    <div class="quote-brand">— 阿维塔 用户</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"我来给小鹏加点分"</div>
+
+                    <div class="quote-brand">— 小鹏 用户</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"阿维塔12一年销量还没有小米一个月高。果然眼光独特的人才会买，审美跟大家都不一样"</div>
+
+                    <div class="quote-brand">— 小米 用户</div>
+
+                </div>
+
+            </div>
+
+            <div class="data-support">
+                <h3>数据支持</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+
+                        <tr>
+                            <th>品牌</th>
+                            <td>小米</td>
+                        </tr>
+
+                        <tr>
+                            <th>提及次数</th>
+                            <td>99</td>
+                        </tr>
+
+                        <tr>
+                            <th>占比</th>
+                            <td>17.0%</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>品牌情感分析</h2>
+            <p>小米品牌的正面评价比例为70.0%，在用户讨论中体现出良好口碑</p>
+
+            <div class="data-visualization">
+                <h3>品牌情感分布</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+                        <tr>
+                            <th>品牌</th>
+                            <th>正面评价</th>
+                            <th>中性评价</th>
+                            <th>负面评价</th>
+                            <th>情感分布</th>
+                        </tr>
+
+                        <tr>
+                            <td>小米</td>
+                            <td>70</td>
+                            <td>20</td>
+                            <td>10</td>
+                            <td>
+                                <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                    <div style="width: 70.0%; background-color: #4CAF50;" title="正面: 70"></div>
+                                    <div style="width: 20.0%; background-color: #2196F3;" title="中性: 20"></div>
+                                    <div style="width: 10.0%; background-color: #F44336;" title="负面: 10"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>小鹏</td>
+                            <td>60</td>
+                            <td>20</td>
+                            <td>20</td>
+                            <td>
+                                <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                    <div style="width: 60.0%; background-color: #4CAF50;" title="正面: 60"></div>
+                                    <div style="width: 20.0%; background-color: #2196F3;" title="中性: 20"></div>
+                                    <div style="width: 20.0%; background-color: #F44336;" title="负面: 20"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>特斯拉</td>
+                            <td>40</td>
+                            <td>30</td>
+                            <td>30</td>
+                            <td>
+                                <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                    <div style="width: 40.0%; background-color: #4CAF50;" title="正面: 40"></div>
+                                    <div style="width: 30.0%; background-color: #2196F3;" title="中性: 30"></div>
+                                    <div style="width: 30.0%; background-color: #F44336;" title="负面: 30"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>极氪</td>
+                            <td>50</td>
+                            <td>30</td>
+                            <td>20</td>
+                            <td>
+                                <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                    <div style="width: 50.0%; background-color: #4CAF50;" title="正面: 50"></div>
+                                    <div style="width: 30.0%; background-color: #2196F3;" title="中性: 30"></div>
+                                    <div style="width: 20.0%; background-color: #F44336;" title="负面: 20"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>比亚迪</td>
+                            <td>70</td>
+                            <td>20</td>
+                            <td>10</td>
+                            <td>
+                                <div style="display: flex; width: 100%; height: 24px; border-radius: 4px; overflow: hidden;">
+                                    <div style="width: 70.0%; background-color: #4CAF50;" title="正面: 70"></div>
+                                    <div style="width: 20.0%; background-color: #2196F3;" title="中性: 20"></div>
+                                    <div style="width: 10.0%; background-color: #F44336;" title="负面: 10"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"小米SU7以2万+销量，首次挤入轿车榜TOP3"</div>
+
+                    <div class="quote-brand">— 小米 用户</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"su7最好看"</div>
+
+                    <div class="quote-brand">— 小米 用户</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"MI一直复制从不原创"</div>
+
+                    <div class="quote-brand">— 小米 用户</div>
+
+                </div>
+
+            </div>
+
+            <div class="data-support">
+                <h3>数据支持</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+
+                        <tr>
+                            <th>品牌</th>
+                            <td>小米</td>
+                        </tr>
+
+                        <tr>
+                            <th>正面评价数</th>
+                            <td>70</td>
+                        </tr>
+
+                        <tr>
+                            <th>中性评价数</th>
+                            <td>20</td>
+                        </tr>
+
+                        <tr>
+                            <th>负面评价数</th>
+                            <td>10</td>
+                        </tr>
+
+                        <tr>
+                            <th>情感关键词</th>
+                            <td>
+                                <table class="data-table">
+
+                                    <tr>
+                                        <th>正面</th>
+                                        <td>颜值高, 销量高, 性价比</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>中性</th>
+                                        <td>期待, 配置</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>负面</th>
+                                        <td>复制, 空间小</td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>竞品分析</h2>
+            <p>小米的主要竞争对手是特斯拉，竞争类型为直接竞争</p>
+
+            <div class="data-visualization">
+                <h3>竞争关系网络</h3>
+                <div style="text-align: center;">
+                    <img src="competition_network.png" alt="竞争关系网络图">
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+            </div>
+
+            <div class="data-support">
+                <h3>数据支持</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+
+                        <tr>
+                            <th>主品牌</th>
+                            <td>小米</td>
+                        </tr>
+
+                        <tr>
+                            <th>主要竞争对手</th>
+                            <td>特斯拉</td>
+                        </tr>
+
+                        <tr>
+                            <th>竞争类型</th>
+                            <td>直接竞争</td>
+                        </tr>
+
+                        <tr>
+                            <th>竞争优势</th>
+                            <td>价格优势, 智能化配置</td>
+                        </tr>
+
+                        <tr>
+                            <th>竞争劣势</th>
+                            <td>品牌影响力, 自动驾驶技术</td>
+                        </tr>
+
+                        <tr>
+                            <th>用户决策因素</th>
+                            <td>价格, 智能化配置, 品牌影响力, 续航, 设计感</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>产品特征分析</h2>
+            <p>用户最关心的5个产品维度是：外观设计, 续航能力, 智能驾驶, 价格, 空间，其中小米在外观设计方面表现最突出</p>
+
+            <div class="data-visualization">
+                <h3>产品特征雷达图</h3>
+                <div style="text-align: center;">
+                    <img src="feature_radar.png" alt="产品特征雷达图">
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+                <div class="quote-card">
+                    <div class="quote-content">"外观是影响消费者买车的重要因素之一"</div>
+
+                    <div class="quote-brand">— 小米 用户</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"银河E8、小鹏设计更先锋，比亚迪沉稳"</div>
+
+                    <div class="quote-brand">— 小米 用户</div>
+
+                </div>
+
+                <div class="quote-card">
+                    <div class="quote-content">"颜值方面"</div>
+
+                    <div class="quote-brand">— 小米 用户</div>
+
+                </div>
+
+            </div>
+
+            <div class="data-support">
+                <h3>数据支持</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+
+                        <tr>
+                            <th>发现的维度</th>
+                            <td>外观设计, 续航能力, 智能驾驶, 价格, 空间</td>
+                        </tr>
+
+                        <tr>
+                            <th>突出品牌</th>
+                            <td>小米</td>
+                        </tr>
+
+                        <tr>
+                            <th>突出维度</th>
+                            <td>外观设计</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>关键词分析</h2>
+            <p>小米品牌的热门讨论关键词是「颜值」</p>
+
+            <div class="data-visualization">
+                <h3>品牌关键词词云</h3>
+                <div style="text-align: center;">
+                    <img src="word_cloud.png" alt="品牌关键词词云">
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+            </div>
+
+            <div class="data-support">
+                <h3>数据支持</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+
+                        <tr>
+                            <th>品牌</th>
+                            <td>小米</td>
+                        </tr>
+
+                        <tr>
+                            <th>热门关键词</th>
+                            <td>颜值, 性价比, 智驾</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>行业趋势分析</h2>
+            <p>当前行业最热门的趋势是「高颜值新能源车型受欢迎」，主要涉及小米, 阿维塔, 蔚来, 小鹏, 极氪, 特斯拉, 智己, 领克, 星纪元, 智界等品牌</p>
+
+            <div class="data-visualization">
+                <h3>行业趋势热度分析</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+                        <tr>
+                            <th>趋势名称</th>
+                            <th>热度</th>
+                            <th>热度图</th>
+                        </tr>
+
+                        <tr>
+                            <td>高颜值新能源车型受欢迎</td>
+                            <td>1179</td>
+                            <td><div class="brand-bar" style="width: 77.36220472440945%; background-color: #FF9800;">1179</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>20-30万级新能源车型竞争激烈</td>
+                            <td>621</td>
+                            <td><div class="brand-bar" style="width: 40.74803149606299%; background-color: #FF9800;">621</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>40万以上国产新能源SUV受关注</td>
+                            <td>1524</td>
+                            <td><div class="brand-bar" style="width: 100.0%; background-color: #FF9800;">1524</div></td>
+                        </tr>
+
+                        <tr>
+                            <td>科技配置成为购车重要考量</td>
+                            <td>71</td>
+                            <td><div class="brand-bar" style="width: 4.6587926509186355%; background-color: #FF9800;">71</div></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+            </div>
+
+            <div class="data-support">
+                <h3>数据支持</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+
+                        <tr>
+                            <th>趋势名称</th>
+                            <td>高颜值新能源车型受欢迎</td>
+                        </tr>
+
+                        <tr>
+                            <th>热度</th>
+                            <td>1179</td>
+                        </tr>
+
+                        <tr>
+                            <th>相关品牌</th>
+                            <td>小米, 阿维塔, 蔚来, 小鹏, 极氪, 特斯拉, 智己, 领克, 星纪元, 智界</td>
+                        </tr>
+
+                        <tr>
+                            <th>趋势描述</th>
+                            <td>消费者对新能源车型的外观设计有较高要求，高颜值车型成为热门讨论话题</td>
+                        </tr>
+
+                        <tr>
+                            <th>未来预测</th>
+                            <td>高颜值设计将继续成为新能源车型的重要卖点, 20-30万价格区间的竞争将进一步加剧，更多品牌将加入, 40万以上国产新能源SUV市场将迎来更多新车型, 科技配置和智驾系统将成为各品牌差异化竞争的关键</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="report-section">
+            <h2>用户画像分析</h2>
+            <p>该品类的主要用户群体是「颜值与设计追求者」，约占35%，偏好小米, 阿维塔等品牌</p>
+
+            <div class="data-visualization">
+                <h3>用户群体分布</h3>
+                <div style="text-align: center;">
+                    <img src="user_persona_pie.png" alt="用户群体分布饼图">
+                </div>
+            </div>
+
+            <div class="quotes-section">
+                <h3>用户原声</h3>
+
+            </div>
+
+            <div class="data-support">
+                <h3>数据支持</h3>
+                <div style="width: 100%; overflow-x: auto;">
+                    <table class="data-table">
+
+                        <tr>
+                            <th>用户群体</th>
+                            <td>颜值与设计追求者</td>
+                        </tr>
+
+                        <tr>
+                            <th>占比</th>
+                            <td>35%</td>
+                        </tr>
+
+                        <tr>
+                            <th>人口特征</th>
+                            <td>年轻用户, 注重外观设计</td>
+                        </tr>
+
+                        <tr>
+                            <th>消费习惯</th>
+                            <td>关注车型颜值, 偏好高颜值车型</td>
+                        </tr>
+
+                        <tr>
+                            <th>品牌偏好</th>
+                            <td>小米, 阿维塔, 蔚来, 小鹏</td>
+                        </tr>
+
+                        <tr>
+                            <th>关注维度</th>
+                            <td>外观设计, 车型颜值</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Echo Search Platform. 本报告由AI智能分析生成。</p>
+        </div>
+    </div>
+</body>
+</html>
