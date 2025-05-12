@@ -1,5 +1,6 @@
 # AI agent 架构
 
+<!-- 方式1：标准Markdown语法 -->
 ![HMA架构图](asset/HMA.png)
 
 ## 目录
