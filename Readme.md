@@ -1,11 +1,11 @@
-# AI agent 架构
+# 项目介绍
 
 ![HMA架构图](asset/HMA.png)
 
-## 项目介绍
+## 项目优势
 
 
-1. **多级Agent架构**：采用分层次调用agent的设计模式，从L1到L4层层分工
+1. **多级Agent架构**：采用分层次调用agent的设计模式，从L1到L4层层分工。这种多级架构能够有效解决multi agent的不稳定问题。
    - L1层：ChatBot/Planing Agent具有高度智能，能与人类完成交互
    - L2层：Expert Agent能根据L1意图完成复杂商业逻辑
    - L3层：Tools Agent在上层指导下完成特定简单任务
